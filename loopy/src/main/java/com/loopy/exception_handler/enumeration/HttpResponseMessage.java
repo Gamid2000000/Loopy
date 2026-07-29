@@ -23,7 +23,21 @@ public enum HttpResponseMessage {
 
 	// Card
 	HTTP_CARD_NOT_FOUND("Card not found"),
-	HTTP_CARD_STATE_NOT_FOUND("Card state not found");
+	HTTP_CARD_STATE_NOT_FOUND("Card state not found"),
+	HTTP_CARD_ARCHIVED("Archived card cannot be changed"),
+	HTTP_CARD_ALREADY_ARCHIVED("Card is already archived"),
+	HTTP_CARD_ALREADY_ACTIVE("Card is already active"),
+	HTTP_CARD_UPDATE_EMPTY("Card update must contain at least one field"),
+	HTTP_CARD_REVIEW_STATE_ALREADY_EXISTS("Card review state already exists"),
+	HTTP_CARD_REVIEW_STATE_CREATION_FAILED("Card review state creation failed"),
+	HTTP_DECK_ARCHIVED("Archived deck cannot be changed"),
+	HTTP_STUDY_SESSION_NOT_FOUND("Study session was not found"),
+	HTTP_STUDY_SESSION_ALREADY_ACTIVE("An active study session already exists for this deck"),
+	HTTP_STUDY_SESSION_NOT_ACTIVE("Study session is not active"),
+	HTTP_STUDY_SESSION_ALREADY_CANCELLED("Study session is already cancelled"),
+	HTTP_STUDY_SESSION_ALREADY_COMPLETED("Study session is already completed"),
+	HTTP_NO_CARDS_AVAILABLE("No cards available for study"),
+	HTTP_INVALID_USER_TIMEZONE("User timezone is invalid");
 
 	private final String message;
 

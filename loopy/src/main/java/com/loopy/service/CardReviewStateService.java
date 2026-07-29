@@ -44,8 +44,8 @@ public class CardReviewStateService {
             .user(user)
             .card(card)
             .easinessFactor(dto.getEasinessFactor())
-            .interval(dto.getInterval())
-            .counsecutiveCorrectCount(dto.getCounsecutiveCorrectCount())
+            .intervalDays(dto.getIntervalDays())
+            .consecutiveCorrectCount(dto.getConsecutiveCorrectCount())
             .dueAt(dto.getDueAt())
             .build();
     }

@@ -5,6 +5,7 @@ import com.loopy.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import java.util.Arrays;
 import java.util.List;
+import java.time.Clock;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,7 +50,7 @@ public class SecurityConfig {
 				.addFilterBefore(jwtAuthenticationFilter,
 						UsernamePasswordAuthenticationFilter.class)
 				.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.OPTIONS, "/**")
-						.permitAll().requestMatchers("/auth/login", "/auth/register", "/api/auth/login", "/api/auth/register").permitAll()
+						.permitAll().requestMatchers("/auth/login", "/auth/register").permitAll()
 						.anyRequest().authenticated())
 				.build();
 	}
@@ -58,4 +59,7 @@ public class SecurityConfig {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+
+    @Bean
+    public Clock clock() { return Clock.systemUTC(); }
 }

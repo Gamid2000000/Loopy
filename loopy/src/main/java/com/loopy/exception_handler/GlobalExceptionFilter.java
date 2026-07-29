@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.loopy.exception.DeckNotFoundException;
+import com.loopy.exception.CardNotFoundException;
+import com.loopy.exception.CardStateConflictException;
+import com.loopy.exception.CardUpdateEmptyException;
 import com.loopy.exception.DeckStateConflictException;
 import com.loopy.exception.DeckUpdateEmptyException;
 import com.loopy.exception.EmailAlreadyExistsException;
@@ -17,9 +20,37 @@ import com.loopy.exception.InvalidEmailOrPasswordException;
 import com.loopy.exception.UserAlreadyExistException;
 import com.loopy.exception.UserNotFoundException;
 import com.loopy.exception.UserProfileNotFoundException;
+import com.loopy.exception.StudySessionNotFoundException;
+import com.loopy.exception.StudySessionConflictException;
 
 @ControllerAdvice
 public class GlobalExceptionFilter {
+    @ExceptionHandler(StudySessionNotFoundException.class)
+    public ResponseEntity<JsonErrorResponse> studySessionNotFound(StudySessionNotFoundException ex) { return error(HttpStatus.NOT_FOUND, "STUDY_SESSION_NOT_FOUND", ex.getMessage()); }
+    @ExceptionHandler(StudySessionConflictException.class)
+    public ResponseEntity<JsonErrorResponse> studySessionConflict(StudySessionConflictException ex) {
+        String code = ex.getMessage().equals("No cards available for study") ? "NO_CARDS_AVAILABLE"
+                : ex.getMessage().equals("An active study session already exists for this deck")
+                        ? "STUDY_SESSION_ALREADY_ACTIVE"
+                        : ex.getMessage().equals("Study session is already cancelled")
+                                ? "STUDY_SESSION_ALREADY_CANCELLED"
+                                : "STUDY_SESSION_NOT_ACTIVE";
+        return error(HttpStatus.CONFLICT, code, ex.getMessage());
+    }
+    @ExceptionHandler(CardNotFoundException.class)
+    public ResponseEntity<JsonErrorResponse> cardNotFound(CardNotFoundException ex) {
+        return error(HttpStatus.NOT_FOUND, "CARD_NOT_FOUND", ex.getMessage());
+    }
+
+    @ExceptionHandler(CardStateConflictException.class)
+    public ResponseEntity<JsonErrorResponse> cardConflict(CardStateConflictException ex) {
+        return error(HttpStatus.CONFLICT, "CARD_STATE_CONFLICT", ex.getMessage());
+    }
+
+    @ExceptionHandler(CardUpdateEmptyException.class)
+    public ResponseEntity<JsonErrorResponse> emptyCardUpdate(CardUpdateEmptyException ex) {
+        return error(HttpStatus.BAD_REQUEST, "CARD_UPDATE_EMPTY", ex.getMessage());
+    }
     @ExceptionHandler(DeckNotFoundException.class)
     public ResponseEntity<JsonErrorResponse> deckNotFound(DeckNotFoundException ex) {
         return error(HttpStatus.NOT_FOUND, "DECK_NOT_FOUND", ex.getMessage());

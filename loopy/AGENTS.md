@@ -43,35 +43,11 @@
   - `*Controller`, `*Service`, `*Repository`, `*Request`, `*Response`, `*Dto`, `*Exception`.
 - Repository methods follow Spring Data derived query naming (`findBy...`, `existsBy...`, `countBy...`).
 
-## Java Code Style
-- **DTOs**: All DTOs must use Lombok `@Data` + `@AllArgsConstructor` format. No Java `record` types for DTOs.
-  ```java
-  @Data
-  @AllArgsConstructor
-  public class AuthResponse {
-      private String accessToken;
-      private String tokenType;
-      private long expiresIn;
-  }
-  ```
-- **Exceptions**: All custom exceptions must extend `RuntimeException` with only a `String message` constructor calling `super(message)`. No extra fields, no no-arg constructors. All exception messages must come from `HttpResponseMessage` enum.
-  ```java
-  public class CardNotFoundException extends RuntimeException {
-      public CardNotFoundException(String message) {
-          super(message);
-      }
-  }
-  ```
-  When throwing exceptions, always use `HttpResponseMessage`:
-  ```java
-  throw new CardNotFoundException(HttpResponseMessage.HTTP_CARD_NOT_FOUND.getMessage());
-  ```
 - Lombok is preferred for boilerplate (`@RequiredArgsConstructor`, `@Data`, `@Builder`).
 - `@Transactional` is used on mutating service methods; read-only methods use `@Transactional(readOnly = true)`.
 - Validation is split:
   - DTO validation via `jakarta.validation` annotations.
   - Domain/business validation in service methods.
-- Prefer existing custom exceptions from `com.loopy.exception` for API consistency.
 
 ## API & Integration Patterns
 - REST base context path is `/api` (if configured).
@@ -86,6 +62,19 @@
 - Run app locally: `./mvnw spring-boot:run`.
 - Run a specific test class: `./mvnw -Dtest=AuthServiceTest test`.
 - No lint-specific Maven plugin/config (checkstyle/spotless/pmd) was found in `pom.xml`.
+
+## Code Style
+
+Detailed formatting and style rules are maintained in the `agent/code-style/` directory:
+
+| File | Topic |
+|------|-------|
+| [`agent/code-style/dto-exceptions.md`](agent/code-style/dto-exceptions.md) | DTO format (`@Data` + `@AllArgsConstructor`), exception classes, `HttpResponseMessage` |
+| [`agent/code-style/jpql-sql.md`](agent/code-style/jpql-sql.md) | JPQL / SQL formatting: text blocks, enum parameters, import usage |
+| [`agent/code-style/model-entities.md`](agent/code-style/model-entities.md) | Entity fields: one annotation per line, blank line between every field |
+| [`agent/code-style/service-classes.md`](agent/code-style/service-classes.md) | Service class formatting: annotations, braces, helpers, builders, logical spacing |
+
+All code in this repository must follow these rules.
 
 ## High-Risk Areas (Do Not Break)
 - JWT auth flow (filter chain + token provider).
@@ -103,6 +92,10 @@
 - Do not hardcode new secrets/credentials in committed properties files.
 - Avoid `System.out.println` in runtime paths; prefer structured logger usage.
 - Don't create migrations, there are none in the project.
+- **Do NOT put `/api` prefix in controller `@RequestMapping` or `@GetMapping`/`@PostMapping` etc.** The `/api` prefix is configured globally via `server.servlet.context-path=/api` in `application.properties`. Putting `/api` in controllers causes double prefix (`/api/api/...`).
+- **Every controller MUST have a class-level `@RequestMapping` with a base prefix** describing its domain area. Examples: `@RequestMapping("/cards")`, `@RequestMapping("/decks")`, `@RequestMapping("/auth")`, `@RequestMapping("/users")`.
+- **Do NOT put business logic methods in model/entity classes.** Models must contain only data fields, JPA annotations, and lifecycle callbacks (`@PrePersist`/`@PreUpdate`). No static factory methods (`create()`), no mutating business methods (`changeFront()`, `archive()`, `restore()`). Use Lombok `@Setter`/`@Builder` + `@AllArgsConstructor` for construction and mutation from services. Business logic belongs in service layer exclusively.
+- **Do NOT duplicate DTO validation in service methods.** Request DTOs already use `jakarta.validation` annotations (`@NotBlank`, `@Size`, etc.) and are validated via `@Valid` in controllers. Service methods must not re-validate the same constraints with manual `required()`/`optional()` helper functions. Use simple `.trim()` and `trimToNull()` for string normalization instead.
 
 ## Testing Notes for Future Changes
 - Tests are located under `src/test/java/com/loopy`.

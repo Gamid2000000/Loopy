@@ -17,7 +17,7 @@ import com.loopy.service.dto.LoginRequest;
 import com.loopy.service.dto.RegisterRequest;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
