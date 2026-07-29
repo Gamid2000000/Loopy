@@ -1,9 +1,7 @@
 package com.loopy.service;
 
 import java.time.Clock;
-import java.time.DateTimeException;
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -52,6 +50,8 @@ public class StudySessionService {
 	private final CardReviewStateRepository reviewStateRepository;
 	private final UserProfileRepository profileRepository;
 	private final UserService userService;
+	private final StudyDayService studyDayService;
+	private final DailyLimitService dailyLimitService;
 	private final Clock clock;
 
     @Transactional
@@ -63,12 +63,12 @@ public class StudySessionService {
 
         UserProfile profile = resolveProfile(user.getId());
         Instant now = clock.instant();
-        ZoneId zone = resolveZone(profile);
-        Instant start = now.atZone(zone).toLocalDate().atStartOfDay(zone).toInstant();
-        Instant end = now.atZone(zone).toLocalDate().plusDays(1).atStartOfDay(zone).toInstant();
+        UserDayRange day = studyDayService.currentDay(profile, now);
+        DailyLimitService.DailyLimits limits = dailyLimitService.calculate(user.getId(), profile,
+                day);
 
-        int reviewRemaining = calcReviewRemaining(user.getId(), profile, start, end);
-        int newRemaining = calcNewRemaining(user.getId(), profile, start, end);
+        int reviewRemaining = limits.reviewRemaining();
+        int newRemaining = limits.newRemaining();
 
         List<CardReviewState> review =
                 loadDueCards(user.getId(), deck.getId(), now, reviewRemaining);
@@ -162,27 +162,6 @@ public class StudySessionService {
 		return profileRepository.findByUserId(userId)
 				.orElseThrow(() -> new UserProfileNotFoundException(
 						HttpResponseMessage.HTTP_USER_PROFILE_NOT_FOUND.getMessage()));
-	}
-
-	private ZoneId resolveZone(UserProfile profile) {
-		try {
-			return ZoneId.of(profile.getTimezone());
-		} catch (DateTimeException ex) {
-			throw new IllegalArgumentException(
-					HttpResponseMessage.HTTP_INVALID_USER_TIMEZONE.getMessage());
-		}
-	}
-
-	private int calcReviewRemaining(Long userId, UserProfile profile, Instant start, Instant end) {
-		long doneToday = sessionRepository.sumReviewCardsByUserAndStartedAtBetween(userId, start,
-				end);
-		return Math.max(0, profile.getDailyReviewLimit() - Math.toIntExact(doneToday));
-	}
-
-	private int calcNewRemaining(Long userId, UserProfile profile, Instant start, Instant end) {
-		long doneToday = sessionRepository.sumNewCardsByUserAndStartedAtBetween(userId, start,
-				end);
-		return Math.max(0, profile.getDailyNewCardsLimit() - Math.toIntExact(doneToday));
 	}
 
 	private List<CardReviewState> loadDueCards(Long userId, Long deckId, Instant now, int limit) {

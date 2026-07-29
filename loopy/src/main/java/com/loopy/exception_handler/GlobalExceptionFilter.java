@@ -33,7 +33,13 @@ public class GlobalExceptionFilter {
                 : ex.getMessage().equals("An active study session already exists for this deck")
                         ? "STUDY_SESSION_ALREADY_ACTIVE"
                         : ex.getMessage().equals("Study session is already cancelled")
-                                ? "STUDY_SESSION_ALREADY_CANCELLED"
+                        ? "STUDY_SESSION_ALREADY_CANCELLED"
+                        : ex.getMessage().equals("Study session is already completed")
+                                ? "STUDY_SESSION_ALREADY_COMPLETED"
+                                : ex.getMessage().equals("Study session card is not the current pending card")
+                                        ? "STUDY_SESSION_CARD_NOT_CURRENT"
+                                        : ex.getMessage().equals("Review idempotency key was already used with different data")
+                                                ? "REVIEW_IDEMPOTENCY_CONFLICT"
                                 : "STUDY_SESSION_NOT_ACTIVE";
         return error(HttpStatus.CONFLICT, code, ex.getMessage());
     }

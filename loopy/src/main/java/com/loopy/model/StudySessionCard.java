@@ -44,6 +44,9 @@ public class StudySessionCard {
 	@Column(name = "due_at_snapshot")
 	private Instant dueAtSnapshot;
 
+	@Column(name = "reviewed_at")
+	private Instant reviewedAt;
+
 	@Column(name = "created_at", nullable = false, updatable = false)
 	private Instant createdAt;
 
