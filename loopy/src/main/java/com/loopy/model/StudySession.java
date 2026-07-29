@@ -49,6 +49,9 @@ public class StudySession {
 	@Column(name = "total_cards_count", nullable = false)
 	private int totalCardsCount;
 
+	@Column(name = "completed_cards_count", nullable = false)
+	private int completedCardsCount;
+
 	@Column(name = "created_at", nullable = false, updatable = false)
 	private Instant createdAt;
 

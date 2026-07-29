@@ -36,6 +36,8 @@ public enum HttpResponseMessage {
 	HTTP_STUDY_SESSION_NOT_ACTIVE("Study session is not active"),
 	HTTP_STUDY_SESSION_ALREADY_CANCELLED("Study session is already cancelled"),
 	HTTP_STUDY_SESSION_ALREADY_COMPLETED("Study session is already completed"),
+	HTTP_STUDY_SESSION_CARD_NOT_CURRENT("Study session card is not the current pending card"),
+	HTTP_REVIEW_IDEMPOTENCY_CONFLICT("Review idempotency key was already used with different data"),
 	HTTP_NO_CARDS_AVAILABLE("No cards available for study"),
 	HTTP_INVALID_USER_TIMEZONE("User timezone is invalid");
 

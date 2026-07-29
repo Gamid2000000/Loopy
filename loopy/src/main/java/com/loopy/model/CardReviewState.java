@@ -18,10 +18,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "card_review_states", uniqueConstraints = @UniqueConstraint(name = "uk_card_review_state_user_card", columnNames = {"user_id", "card_id"}))
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor

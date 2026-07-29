@@ -34,6 +34,7 @@ import com.loopy.model.StudySession;
 import com.loopy.model.StudySessionCard;
 import com.loopy.model.User;
 import com.loopy.model.UserProfile;
+import com.loopy.model.enumeration.StudySessionCardStatus;
 import com.loopy.model.enumeration.CardStatus;
 import com.loopy.model.enumeration.DeckStatus;
 import com.loopy.model.enumeration.StudySessionStatus;
@@ -44,6 +45,7 @@ import com.loopy.repository.StudySessionCardRepository;
 import com.loopy.repository.StudySessionRepository;
 import com.loopy.repository.UserProfileRepository;
 import com.loopy.repository.UserRepository;
+import com.loopy.repository.ReviewLogRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -60,11 +62,13 @@ class StudySessionIntegrationTests {
     @Autowired private CardReviewStateRepository states;
     @Autowired private StudySessionRepository sessions;
     @Autowired private StudySessionCardRepository sessionCards;
+    @Autowired private ReviewLogRepository reviewLogs;
     @Autowired private EntityManager entityManager;
     @Autowired private PlatformTransactionManager transactionManager;
 
     @AfterEach
     void clean() {
+        reviewLogs.deleteAll();
         sessionCards.deleteAll();
         sessions.deleteAll();
         states.deleteAll();
@@ -225,11 +229,79 @@ class StudySessionIntegrationTests {
                 .andExpect(status().isConflict()).andExpect(jsonPath("$.code").value("NO_CARDS_AVAILABLE"));
     }
 
+    @Test
+    void submitsReviewIdempotentlyAndCompletesSessionAfterLastCard() throws Exception {
+        String token = register("owner@example.com");
+        User owner = users.findByEmail("owner@example.com").orElseThrow();
+        Deck deck = deck(owner, DeckStatus.ACTIVE);
+        Card review = card(deck, "review");
+        Card fresh = card(deck, "fresh");
+        CardReviewState reviewState = state(owner, review, NOW, NOW.minusSeconds(1), 2);
+        reviewState.setIntervalDays(6);
+        states.saveAndFlush(reviewState);
+        state(owner, fresh, null, null, 0);
+        long sessionId = create(token, deck.getId());
+        List<StudySessionCard> queue = sessionCards.findAll();
+        StudySessionCard first = queue.stream().filter(item -> item.getPosition() == 1).findFirst()
+                .orElseThrow();
+        StudySessionCard second = queue.stream().filter(item -> item.getPosition() == 2).findFirst()
+                .orElseThrow();
+        String reviewId = "dbcd89d1-e9bd-49e7-ab8d-e57348dc09c1";
+
+        mvc.perform(post("/study-sessions/{id}/reviews", sessionId)
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(reviewBody(first.getId(), "GOOD", reviewId)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.review.sm2Score").value(4))
+                .andExpect(jsonPath("$.review.newIntervalDays").value(15))
+                .andExpect(jsonPath("$.session.status").value("ACTIVE"))
+                .andExpect(jsonPath("$.session.reviewedCardsCount").value(1))
+                .andExpect(jsonPath("$.nextCard.sessionCardId").value(second.getId()));
+        assertThat(reviewLogs.count()).isEqualTo(1);
+        assertThat(states.findById(reviewState.getId()).orElseThrow().getIntervalDays()).isEqualTo(15);
+        assertThat(sessionCards.findById(first.getId()).orElseThrow().getStatus())
+                .isEqualTo(StudySessionCardStatus.REVIEWED);
+
+        mvc.perform(post("/study-sessions/{id}/reviews", sessionId)
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(reviewBody(first.getId(), "GOOD", reviewId)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.session.reviewedCardsCount").value(1));
+        assertThat(reviewLogs.count()).isEqualTo(1);
+
+        mvc.perform(post("/study-sessions/{id}/reviews", sessionId)
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(reviewBody(first.getId(), "EASY", reviewId)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("REVIEW_IDEMPOTENCY_CONFLICT"));
+
+        mvc.perform(post("/study-sessions/{id}/reviews", sessionId)
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(reviewBody(second.getId(), "EASY", "0b2f1aec-5cf2-4e9e-9c1c-14db9e8a2f83")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.session.status").value("COMPLETED"))
+                .andExpect(jsonPath("$.session.remainingCardsCount").value(0))
+                .andExpect(jsonPath("$.nextCard").doesNotExist());
+        StudySession completed = sessions.findById(sessionId).orElseThrow();
+        assertThat(completed.getCompletedAt()).isEqualTo(NOW);
+        assertThat(completed.getCompletedCardsCount()).isEqualTo(2);
+    }
+
     private long create(String token, long deckId) throws Exception {
         String body = mvc.perform(post("/study-sessions").header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON).content("{\"deckId\":" + deckId + "}"))
                 .andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
         return Long.parseLong(body.replaceFirst(".*\\\"id\\\":(\\d+).*", "$1"));
+    }
+
+    private String reviewBody(long sessionCardId, String grade, String clientReviewId) {
+        return "{\"sessionCardId\":" + sessionCardId + ",\"grade\":\"" + grade
+                + "\",\"responseTimeMs\":4200,\"clientReviewId\":\"" + clientReviewId
+                + "\"}";
     }
 
     private String register(String email) throws Exception {
