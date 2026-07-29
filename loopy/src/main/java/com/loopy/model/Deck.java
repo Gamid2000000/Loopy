@@ -19,13 +19,19 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "decks")
 @Getter
+@Setter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Deck {
 
     @Id
@@ -47,7 +53,8 @@ public class Deck {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private DeckStatus status;
+    @Builder.Default
+    private DeckStatus status = DeckStatus.ACTIVE;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
@@ -57,28 +64,6 @@ public class Deck {
 
     @Version
     private Long version;
-
-    private Deck(User owner, String name, String description, boolean isPublic) {
-        this.owner = owner;
-        this.name = name;
-        this.description = description;
-        this.isPublic = isPublic;
-        this.status = DeckStatus.ACTIVE;
-    }
-
-    public static Deck create(User owner, String name, String description, boolean isPublic) {
-        return new Deck(owner, name, description, isPublic);
-    }
-
-    public void changeName(String name) { this.name = name; }
-
-    public void changeDescription(String description) { this.description = description; }
-
-    public void changePublic(boolean isPublic) { this.isPublic = isPublic; }
-
-    public void archive() { this.status = DeckStatus.ARCHIVED; }
-
-    public void restore() { this.status = DeckStatus.ACTIVE; }
 
     @PrePersist
     void onCreate() { createdAt = updatedAt = Instant.now(); }

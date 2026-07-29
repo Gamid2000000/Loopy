@@ -40,11 +40,11 @@ class DeckIntegrationTests {
         String ownerToken = register("owner@example.com");
         String otherToken = register("other@example.com");
         long deckId = create(ownerToken, "  English B1  ", "  Common words  ");
-        mvc.perform(get("/api/decks").header("Authorization", "Bearer " + ownerToken))
+        mvc.perform(get("/decks").header("Authorization", "Bearer " + ownerToken))
             .andExpect(status().isOk()).andExpect(jsonPath("$[0].name").value("English B1"));
-        mvc.perform(get("/api/decks").header("Authorization", "Bearer " + otherToken))
+        mvc.perform(get("/decks").header("Authorization", "Bearer " + otherToken))
             .andExpect(status().isOk()).andExpect(jsonPath("$").isEmpty());
-        mvc.perform(get("/api/decks/{id}", deckId).header("Authorization", "Bearer " + otherToken))
+        mvc.perform(get("/decks/{id}", deckId).header("Authorization", "Bearer " + otherToken))
             .andExpect(status().isNotFound()).andExpect(jsonPath("$.code").value("DECK_NOT_FOUND"));
     }
 
@@ -54,28 +54,28 @@ class DeckIntegrationTests {
         long deckId = create(token, "Deck", "Description");
         Deck deck = decks.findById(deckId).orElseThrow();
         cards.save(Card.builder().deck(deck).front("front").back("back").build());
-        mvc.perform(patch("/api/decks/{id}", deckId).header("Authorization", "Bearer " + token)
+        mvc.perform(patch("/decks/{id}", deckId).header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON).content("{\"description\":null,\"isPublic\":true}"))
             .andExpect(status().isOk()).andExpect(jsonPath("$.description").doesNotExist())
             .andExpect(jsonPath("$.isPublic").value(true));
-        mvc.perform(patch("/api/decks/{id}", deckId).header("Authorization", "Bearer " + token)
+        mvc.perform(patch("/decks/{id}", deckId).header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON).content("{}"))
             .andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value("DECK_UPDATE_EMPTY"));
-        mvc.perform(delete("/api/decks/{id}", deckId).header("Authorization", "Bearer " + token))
+        mvc.perform(delete("/decks/{id}", deckId).header("Authorization", "Bearer " + token))
             .andExpect(status().isNoContent());
-        mvc.perform(get("/api/decks/{id}", deckId).header("Authorization", "Bearer " + token))
+        mvc.perform(get("/decks/{id}", deckId).header("Authorization", "Bearer " + token))
             .andExpect(status().isNotFound());
         assertThat(cards.count()).isEqualTo(1);
-        mvc.perform(delete("/api/decks/{id}", deckId).header("Authorization", "Bearer " + token))
+        mvc.perform(delete("/decks/{id}", deckId).header("Authorization", "Bearer " + token))
             .andExpect(status().isConflict()).andExpect(jsonPath("$.code").value("DECK_STATE_CONFLICT"));
-        mvc.perform(post("/api/decks/{id}/restore", deckId).header("Authorization", "Bearer " + token))
+        mvc.perform(post("/decks/{id}/restore", deckId).header("Authorization", "Bearer " + token))
             .andExpect(status().isOk()).andExpect(jsonPath("$.status").value("ACTIVE"));
-        mvc.perform(post("/api/decks/{id}/restore", deckId).header("Authorization", "Bearer " + token))
+        mvc.perform(post("/decks/{id}/restore", deckId).header("Authorization", "Bearer " + token))
             .andExpect(status().isConflict()).andExpect(jsonPath("$.code").value("DECK_STATE_CONFLICT"));
     }
 
     private long create(String token, String name, String description) throws Exception {
-        String body = mvc.perform(post("/api/decks").header("Authorization", "Bearer " + token)
+        String body = mvc.perform(post("/decks").header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"" + name + "\",\"description\":\"" + description + "\"}"))
             .andExpect(status().isCreated()).andExpect(jsonPath("$.isPublic").value(false)).andReturn()
@@ -84,7 +84,7 @@ class DeckIntegrationTests {
     }
 
     private String register(String email) throws Exception {
-        String body = mvc.perform(post("/api/auth/register").contentType(MediaType.APPLICATION_JSON)
+        String body = mvc.perform(post("/auth/register").contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"A\",\"email\":\"" + email + "\",\"password\":\"password1\"}"))
             .andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
         return body.replaceFirst(".*\\\"accessToken\\\":\\\"([^\\\"]+)\\\".*", "$1");

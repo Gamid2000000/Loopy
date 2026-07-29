@@ -1,51 +1,58 @@
 package com.loopy.model;
 
-import java.time.LocalDateTime;
-import jakarta.persistence.*;
+import java.time.Instant;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.Version;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "card_review_states", uniqueConstraints = @UniqueConstraint(name = "uk_card_review_state_user_card", columnNames = {"user_id", "card_id"}))
 @Getter
 @Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class CardReviewState {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "card_id", nullable = false)
+    private Card card;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "card_id", nullable = false)
-	private Card card;
+    @Column(name = "easiness_factor", nullable = false)
+    private Double easinessFactor;
 
-	@Column(name = "easiness_factor")
-	private Short easinessFactor;
+    @Column(name = "interval_days", nullable = false)
+    private Integer intervalDays;
 
-	@Column(name = "interval")
-	private Short interval;
+    @Column(name = "consecutive_correct_count", nullable = false)
+    private Integer consecutiveCorrectCount;
 
-	@Column(name = "consecutive_correct_count")
-	private Short counsecutiveCorrectCount;
+    @Column(name = "last_reviewed_at")
+    private Instant lastReviewedAt;
 
-	@Column(name = "last_reviewed_at")
-	private LocalDateTime lastReviewedAt;
+    @Column(name = "due_at")
+    private Instant dueAt;
 
-	@Column(name = "due_at")
-	private Short dueAt;
-
-
-	@PrePersist
-	protected void prePersist() {
-		this.lastReviewedAt = LocalDateTime.now();
-	}
-
-	@PreUpdate
-	protected void preUpdate() {
-		this.lastReviewedAt = LocalDateTime.now();
-	}
+    @Version
+    private Long version;
 }
-

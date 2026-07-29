@@ -1,61 +1,79 @@
 package com.loopy.model;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.time.Instant;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.loopy.model.enumeration.CardStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Table(name = "cards")
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Card {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "deck_id", nullable = false)
     private Deck deck;
 
-    @Column(name = "front")
+    @Column(nullable = false, length = 500)
     private String front;
 
-    @Column(name = "back")
+    @Column(nullable = false, length = 2000)
     private String back;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(length = 3000)
+    private String example;
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @Column(length = 3000)
+    private String note;
 
-    @OneToMany(mappedBy = "card")
-    @JsonIgnore
-    private List<CardReviewState> cardReviewStates;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    @Builder.Default
+    private CardStatus status = CardStatus.ACTIVE;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private Instant updatedAt;
+
+    @Version
+    private Long version;
 
     @PrePersist
-    protected void prePersist() { this.createdAt = LocalDateTime.now(); }
+    void onCreate() {
+        createdAt = updatedAt = Instant.now();
+    }
 
     @PreUpdate
-    protected void preUpdate() { this.updatedAt = LocalDateTime.now(); }
+    void onUpdate() {
+        updatedAt = Instant.now();
+    }
 }

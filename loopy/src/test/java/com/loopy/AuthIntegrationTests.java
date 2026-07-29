@@ -39,7 +39,7 @@ class AuthIntegrationTests {
 
     @Test
     void registerNormalizesEmailHashesPasswordAndCreatesProfile() throws Exception {
-        mvc.perform(post("/api/auth/register")
+        mvc.perform(post("/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     "{\"name\":\"  Anna  \",\"email\":\" Anna@Example.COM \",\"password\":\"password1\"}"))
@@ -55,7 +55,7 @@ class AuthIntegrationTests {
     @Test
     void duplicateRegistrationReturnsConflict() throws Exception {
         register("a@example.com");
-        mvc.perform(post("/api/auth/register")
+        mvc.perform(post("/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     "{\"name\":\"A\",\"email\":\"A@EXAMPLE.COM\",\"password\":\"password1\"}"))
@@ -67,13 +67,13 @@ class AuthIntegrationTests {
     void loginDoesNotRevealWhichCredentialIsWrong() throws Exception {
         register("a@example.com");
 
-        String unknown = mvc.perform(post("/api/auth/login")
+        String unknown = mvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"email\":\"missing@example.com\",\"password\":\"password1\"}"))
             .andExpect(status().isUnauthorized())
             .andReturn().getResponse().getContentAsString();
 
-        String wrong = mvc.perform(post("/api/auth/login")
+        String wrong = mvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"email\":\"a@example.com\",\"password\":\"wrongpass\"}"))
             .andExpect(status().isUnauthorized())
@@ -86,16 +86,16 @@ class AuthIntegrationTests {
     void authenticatedUserCanReadAndPartiallyUpdateOnlyOwnProfile() throws Exception {
         String token = register("a@example.com");
 
-        mvc.perform(get("/api/users/me"))
+        mvc.perform(get("/users/me"))
             .andExpect(status().isUnauthorized());
 
-        mvc.perform(get("/api/users/me")
+        mvc.perform(get("/users/me")
                 .header("Authorization", "Bearer " + token))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.email").value("a@example.com"))
             .andExpect(jsonPath("$.passwordHash").doesNotExist());
 
-        mvc.perform(patch("/api/users/me/profile")
+        mvc.perform(patch("/users/me/profile")
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
@@ -105,14 +105,14 @@ class AuthIntegrationTests {
             .andExpect(jsonPath("$.dailyNewCardsLimit").value(20))
             .andExpect(jsonPath("$.dailyReviewLimit").value(100));
 
-        mvc.perform(get("/api/users/me")
+        mvc.perform(get("/users/me")
                 .header("Authorization", "Bearer bad.token"))
             .andExpect(status().isUnauthorized())
             .andExpect(jsonPath("$.code").value("INVALID_ACCESS_TOKEN"));
     }
 
     private String register(String email) throws Exception {
-        String body = mvc.perform(post("/api/auth/register")
+        String body = mvc.perform(post("/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     "{\"name\":\"A\",\"email\":\""

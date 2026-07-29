@@ -30,8 +30,10 @@ public class DeckService {
     @Transactional
     public DeckResponse create(UserPrincipal principal, CreateDeckRequest request) {
         User owner = currentUser(principal);
-        Deck deck = Deck.create(owner, requiredName(request.getName()), normalizeDescription(request.getDescription()),
-                Boolean.TRUE.equals(request.getIsPublic()));
+        Deck deck = Deck.builder().owner(owner).name(requiredName(request.getName()))
+                .description(normalizeDescription(request.getDescription()))
+                .isPublic(Boolean.TRUE.equals(request.getIsPublic()))
+                .status(DeckStatus.ACTIVE).build();
         return toResponse(deckRepository.save(deck));
     }
 
@@ -53,11 +55,11 @@ public class DeckService {
         if (deck.getStatus() == DeckStatus.ARCHIVED) {
             throw new DeckStateConflictException(HttpResponseMessage.HTTP_DECK_ARCHIVED_CANNOT_UPDATE.getMessage());
         }
-        if (request.isNamePresent()) deck.changeName(requiredName(request.getName()));
-        if (request.isDescriptionPresent()) deck.changeDescription(normalizeDescription(request.getDescription()));
+        if (request.isNamePresent()) deck.setName(requiredName(request.getName()));
+        if (request.isDescriptionPresent()) deck.setDescription(normalizeDescription(request.getDescription()));
         if (request.isPublicPresent()) {
             if (request.getIsPublic() == null) throw new IllegalArgumentException("isPublic must be true or false");
-            deck.changePublic(request.getIsPublic());
+            deck.setPublic(request.getIsPublic());
         }
         return toResponse(deck);
     }
@@ -68,7 +70,7 @@ public class DeckService {
         if (deck.getStatus() == DeckStatus.ARCHIVED) {
             throw new DeckStateConflictException(HttpResponseMessage.HTTP_DECK_ALREADY_ARCHIVED.getMessage());
         }
-        deck.archive();
+        deck.setStatus(DeckStatus.ARCHIVED);
     }
 
     @Transactional(readOnly = true)
@@ -83,7 +85,7 @@ public class DeckService {
         if (deck.getStatus() == DeckStatus.ACTIVE) {
             throw new DeckStateConflictException(HttpResponseMessage.HTTP_DECK_ALREADY_ACTIVE.getMessage());
         }
-        deck.restore();
+        deck.setStatus(DeckStatus.ACTIVE);
         return toResponse(deck);
     }
 

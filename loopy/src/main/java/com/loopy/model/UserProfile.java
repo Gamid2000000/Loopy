@@ -41,10 +41,11 @@ public class UserProfile {
 	@Column(name = "created_at", nullable = false, updatable = false)
 	private Instant createdAt;
 
-	@Column(name = "updated_at", nullable = false)
-	private Instant updatedAt;
-	@Version
-	private Long version;
+    @Column(name = "updated_at", nullable = false)
+    private Instant updatedAt;
+
+    @Version
+    private Long version;
 
 	@PrePersist
 	void onCreate() {

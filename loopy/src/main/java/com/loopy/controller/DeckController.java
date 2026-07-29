@@ -25,7 +25,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/decks")
+@RequestMapping("/decks")
 @RequiredArgsConstructor
 public class DeckController {
     private final DeckService deckService;
