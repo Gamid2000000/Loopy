@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL База Данных
+  postgres-db:
+    image: postgres:16-alpine
+    container_name: loopy-db
+    restart: always
+    environment:
+      POSTGRES_DB: loopy
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5439:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - loopy-network
+
+  # 2. Spring Boot Бэкенд
+  backend:
+    build:
+      context: ./loopy
+      dockerfile: Dockerfile
+    container_name: loopy-backend
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/loopy
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgrespassword
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SECURITY_ALLOWEDORIGINS=http://localhost:3000
+    depends_on:
+      - postgres-db
+    networks:
+      - loopy-network
+
+  # 3. React/Vite Фронтенд
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: loopy-frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - loopy-network
+
+volumes:
+  postgres_data:
+
+networks:
+  loopy-network:
+    driver: bridge
