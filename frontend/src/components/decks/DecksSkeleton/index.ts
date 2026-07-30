@@ -1,0 +1,1 @@
+export { DecksSkeleton } from "./DecksSkeleton";

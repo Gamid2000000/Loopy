@@ -1,0 +1,10 @@
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 24px;
+}
+.error {
+  color: var(--color-danger);
+  margin-top: 12px;
+}

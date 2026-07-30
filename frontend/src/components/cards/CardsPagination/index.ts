@@ -1,0 +1,1 @@
+export { CardsPagination } from "./CardsPagination";

@@ -1,0 +1,10 @@
+.skeleton {
+  border-radius: var(--radius-small);
+  background: linear-gradient(90deg, var(--color-surface), var(--color-surface-elevated), var(--color-surface));
+  animation: pulse 1.4s infinite;
+}
+@keyframes pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
