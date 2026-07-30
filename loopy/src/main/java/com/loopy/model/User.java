@@ -11,14 +11,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(name = "uk_users_email", columnNames = "email"))
+@Table(name = "users",
+		uniqueConstraints = @UniqueConstraint(name = "uk_users_email", columnNames = "email"))
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -50,8 +51,12 @@ public class User {
 	private List<CardReviewState> cardReviewStates;
 
 	@PrePersist
-	void onCreate() { createdAt = updatedAt = Instant.now(); }
+	void onCreate() {
+		createdAt = updatedAt = Instant.now();
+	}
 
 	@PreUpdate
-	void onUpdate() { updatedAt = Instant.now(); }
+	void onUpdate() {
+		updatedAt = Instant.now();
+	}
 }

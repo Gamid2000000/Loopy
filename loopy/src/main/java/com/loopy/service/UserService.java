@@ -14,6 +14,7 @@ import com.loopy.service.dto.CreateUserDto;
 import com.loopy.service.dto.CurrentUserResponse;
 import com.loopy.service.dto.UpdateUserProfileRequest;
 import com.loopy.service.dto.UserProfileResponse;
+import jakarta.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +43,7 @@ public class UserService {
 		});
 	}
 
+	@Transactional
 	public User createUser(CreateUserDto dto) {
 		dto.setEmail(AuthService.normalizeEmail(dto.getEmail()));
 		get(dto.getEmail()).ifPresent(existing -> {
@@ -49,6 +51,7 @@ public class UserService {
 		});
 
 		User user = userRepository.save(userWrapper(dto));
+
 		UserProfile profile = new UserProfile();
 		profile.setUser(user);
 		profile.setDisplayName(user.getName());

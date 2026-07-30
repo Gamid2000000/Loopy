@@ -52,8 +52,10 @@ public class StatisticsService {
         List<ReviewLogStatisticsProjection> logs = reviewLogRepository
                 .findStatisticsByUserAndReviewedAtBetween(user.getId(), from.start(), today.end());
         Map<LocalDate, DailyMetrics> metrics = aggregateByDay(logs, today);
+
         List<ActivityDayResponse> activity = buildActivity(fromDate, days, metrics);
         DailyMetrics total = metrics.values().stream().reduce(new DailyMetrics(), DailyMetrics::merge);
+
         long completedSessions = sessionRepository
                 .countByUserIdAndStatusAndCompletedAtGreaterThanEqualAndCompletedAtLessThan(user.getId(),
                         StudySessionStatus.COMPLETED, from.start(), today.end());
