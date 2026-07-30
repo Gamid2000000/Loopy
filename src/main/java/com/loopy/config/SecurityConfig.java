@@ -1,0 +1,65 @@
+package com.loopy.config;
+
+import com.loopy.security.CustomAuthenticationEntryPoint;
+import com.loopy.security.JwtAuthenticationFilter;
+import lombok.RequiredArgsConstructor;
+import java.util.Arrays;
+import java.util.List;
+import java.time.Clock;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+@Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
+public class SecurityConfig {
+
+	private final JwtAuthenticationFilter jwtAuthenticationFilter;
+	private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+
+	@Value("${security.allowedOrigins}")
+	private String allowedOrigins;
+
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		return http.cors(cors -> cors.configurationSource(request -> {
+			CorsConfiguration config = new CorsConfiguration();
+			config.setAllowedOrigins(Arrays.stream(allowedOrigins.split(",")).map(String::trim)
+					.filter(origin -> !origin.isBlank()).toList());
+			config.setAllowedMethods(
+					List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"));
+			config.setAllowedHeaders(List.of("*"));
+			config.setAllowCredentials(true);
+			config.setMaxAge(3600L);
+			return config;
+		})).csrf(csrf -> csrf.disable())
+				.sessionManagement(
+						session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.exceptionHandling(
+						ex -> ex.authenticationEntryPoint(customAuthenticationEntryPoint))
+				.addFilterBefore(jwtAuthenticationFilter,
+						UsernamePasswordAuthenticationFilter.class)
+				.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.OPTIONS, "/**")
+						.permitAll().requestMatchers("/auth/login", "/auth/register").permitAll()
+						.anyRequest().authenticated())
+				.build();
+	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+    @Bean
+    public Clock clock() { return Clock.systemUTC(); }
+}

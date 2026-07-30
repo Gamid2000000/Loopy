@@ -1,0 +1,15 @@
+.badge {
+  display: inline-flex;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.active {
+  background: rgba(79, 209, 139, 0.14);
+  color: var(--color-success);
+}
+.archived {
+  background: rgba(255, 170, 69, 0.16);
+  color: var(--color-warning);
+}

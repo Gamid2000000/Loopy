@@ -1,0 +1,2 @@
+import { Modal } from "../../ui/Modal"; import { Button } from "../../ui/Button";
+export function CancelSessionDialog({ onClose, onConfirm, busy }: { onClose: () => void; onConfirm: () => void; busy: boolean }) { return <Modal title="Отменить занятие" onClose={onClose} busy={busy}><p>Текущая учебная сессия будет отменена.</p><div><Button variant="secondary" onClick={onClose} disabled={busy}>Остаться</Button><Button variant="danger" onClick={onConfirm} loading={busy}>Отменить занятие</Button></div></Modal>; }

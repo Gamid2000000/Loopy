@@ -1,0 +1,1 @@
+.form{display:grid;gap:var(--space-4)}.actions{display:flex;justify-content:flex-end;gap:var(--space-3)}.error{color:var(--color-danger)}

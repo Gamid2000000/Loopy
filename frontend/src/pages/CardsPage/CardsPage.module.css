@@ -1,0 +1,44 @@
+.headerActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.deckName {
+  margin: 0 0 16px;
+  color: var(--color-text-secondary);
+}
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.tabs button {
+  padding: 9px 14px;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+.tabs button[aria-selected="true"] {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.75fr) minmax(300px, 0.85fr);
+  gap: 20px;
+}
+.backLink {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--color-primary);
+}
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .headerActions {
+    width: 100%;
+  }
+}

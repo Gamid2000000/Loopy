@@ -1,0 +1,2 @@
+import { Modal } from "../../ui/Modal"; import { CardEditorForm } from "../CardEditorForm"; import type { CreateCardRequest } from "../../../types/card";
+export function CreateCardModal({loading,error,onClose,onCreate}:{loading:boolean;error?:string|null;onClose:()=>void;onCreate:(v:CreateCardRequest)=>void}){return <Modal title="Добавить карточку" busy={loading} onClose={onClose}><CardEditorForm loading={loading} error={error} onCancel={onClose} onSubmit={v=>onCreate(v as CreateCardRequest)}/></Modal>}

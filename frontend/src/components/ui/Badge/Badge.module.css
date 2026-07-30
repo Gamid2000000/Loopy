@@ -1,0 +1,8 @@
+.badge {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 3px 8px;
+  background: var(--color-primary-muted);
+  color: var(--color-primary-light);
+  font-size: 12px;
+}
