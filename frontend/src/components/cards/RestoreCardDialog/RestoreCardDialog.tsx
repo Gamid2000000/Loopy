@@ -1,0 +1,2 @@
+import { Modal } from "../../ui/Modal"; import { Button } from "../../ui/Button";
+export function RestoreCardDialog({front,loading,error,onClose,onConfirm}:{front:string;loading:boolean;error?:string|null;onClose:()=>void;onConfirm:()=>void}){return <Modal title="Восстановить карточку" busy={loading} onClose={onClose}><p>Вернуть «{front.slice(0,80)}» в активный список?</p>{error&&<p role="alert">{error}</p>}<Button variant="ghost" disabled={loading} onClick={onClose}>Отмена</Button><Button loading={loading} onClick={onConfirm}>Восстановить</Button></Modal>}

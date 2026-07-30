@@ -1,0 +1,24 @@
+.chart {
+  height: 160px;
+  display: flex;
+  gap: 10px;
+  align-items: end;
+  padding-top: var(--spacing-4);
+}
+.chart div {
+  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  gap: 5px;
+  text-align: center;
+}
+.chart i {
+  display: block;
+  background: linear-gradient(var(--color-primary-light), var(--color-primary-active));
+  border-radius: 4px 4px 0 0;
+}
+.chart small {
+  color: var(--color-text-muted);
+}
