@@ -241,7 +241,12 @@ export function useCards(deckId: number | null) {
     (cardIds: number[]) =>
       mutate("archive", async () => {
         if (deckId === null) throw new ApiError("DECK_NOT_FOUND", "", 404);
-        await cardsApi.bulkArchiveCards(deckId, cardIds);
+        try {
+          await cardsApi.bulkArchiveCards(deckId, cardIds);
+        } catch (error) {
+          if (!(error instanceof ApiError) || error.status !== 404) throw error;
+          await Promise.all(cardIds.map((cardId) => cardsApi.archiveCard(cardId)));
+        }
         setSelectedCard(null);
         setSelectedCardId(null);
         await load("ACTIVE", activePage);
@@ -253,7 +258,12 @@ export function useCards(deckId: number | null) {
     (cardIds: number[]) =>
       mutate("restore", async () => {
         if (deckId === null) throw new ApiError("DECK_NOT_FOUND", "", 404);
-        await cardsApi.bulkRestoreCards(deckId, cardIds);
+        try {
+          await cardsApi.bulkRestoreCards(deckId, cardIds);
+        } catch (error) {
+          if (!(error instanceof ApiError) || error.status !== 404) throw error;
+          await Promise.all(cardIds.map((cardId) => cardsApi.restoreCard(cardId)));
+        }
         setSelectedCard(null);
         setSelectedCardId(null);
         await load("ARCHIVED", archivedPage);

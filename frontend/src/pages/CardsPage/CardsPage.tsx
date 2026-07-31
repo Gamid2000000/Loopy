@@ -240,8 +240,9 @@ export function CardsPage() {
       {dialog === "bulk" && (
         <div className={styles.bulkDialog} role="dialog" aria-modal="true" aria-label="Подтверждение массовой операции">
           <h2>{cards.tab === "ACTIVE" ? "Архивировать" : "Восстановить"} {selection.selectedCount} карточек?</h2>
-          <Button variant="secondary" onClick={closeDialog}>Отмена</Button>
-          <Button variant="danger" onClick={() => void submitBulk}>{cards.tab === "ACTIVE" ? "Архивировать" : "Восстановить"}</Button>
+          {cards.mutationError && <p role="alert">{formatApiError(cards.mutationError)}</p>}
+          <Button variant="secondary" disabled={cards.mutationStatus === "loading"} onClick={closeDialog}>Отмена</Button>
+          <Button variant="danger" loading={cards.mutationStatus === "loading"} onClick={() => void submitBulk}>{cards.tab === "ACTIVE" ? "Архивировать" : "Восстановить"}</Button>
         </div>
       )}
     </main>
