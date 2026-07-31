@@ -91,7 +91,7 @@ export function DecksPage() {
     setStudyLoading(true);
     try {
       const existing = await getActiveStudySession(deck.id);
-      const session = existing ?? await createStudySession(deck.id);
+      const session = existing ?? (await createStudySession(deck.id));
       navigate(`/study-sessions/${session.id}`);
     } catch (reason) {
       const apiError = reason instanceof ApiError ? reason : new ApiError("HTTP_ERROR", "", 0);

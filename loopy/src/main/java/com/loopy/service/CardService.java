@@ -1,7 +1,12 @@
 package com.loopy.service;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +28,8 @@ import com.loopy.repository.DeckRepository;
 import com.loopy.security.dto.UserPrincipal;
 import com.loopy.service.dto.CardResponse;
 import com.loopy.service.dto.CardSummaryResponse;
+import com.loopy.service.dto.BulkCardActionRequest;
+import com.loopy.service.dto.BulkCardActionResponse;
 import com.loopy.service.dto.CreateCardRequest;
 import com.loopy.service.dto.UpdateCardRequest;
 
@@ -57,11 +64,10 @@ public CardResponse create(UserPrincipal principal, Long deckId, CreateCardReque
 }
 	@Transactional(readOnly = true)
 	public Page<CardSummaryResponse> getActiveCards(UserPrincipal principal, Long deckId,
-			Pageable pageable) {
+			String query, Pageable pageable) {
 		User owner = currentUser(principal);
 		findActiveDeck(owner, deckId);
-		return cardRepository.findAllByDeckIdAndDeckOwnerIdAndDeckStatusAndStatus(deckId,
-				owner.getId(), DeckStatus.ACTIVE, CardStatus.ACTIVE, pageable).map(this::toSummary);
+		return findCards(owner, deckId, CardStatus.ACTIVE, query, pageable);
 	}
 
 	@Transactional(readOnly = true)
@@ -104,13 +110,23 @@ public CardResponse create(UserPrincipal principal, Long deckId, CreateCardReque
 
 	@Transactional(readOnly = true)
 	public Page<CardSummaryResponse> getArchivedCards(UserPrincipal principal, Long deckId,
-			Pageable pageable) {
+			String query, Pageable pageable) {
 		User owner = currentUser(principal);
 		Deck deck = findOwnedDeck(owner, deckId);
 		ensureDeckActive(deck);
-		return cardRepository.findAllByDeckIdAndDeckOwnerIdAndDeckStatusAndStatus(deckId,
-				owner.getId(), DeckStatus.ACTIVE, CardStatus.ARCHIVED, pageable)
-				.map(this::toSummary);
+		return findCards(owner, deckId, CardStatus.ARCHIVED, query, pageable);
+	}
+
+	@Transactional
+	public BulkCardActionResponse bulkArchive(UserPrincipal principal, Long deckId,
+			BulkCardActionRequest request) {
+		return bulkChangeStatus(principal, deckId, request, CardStatus.ARCHIVED);
+	}
+
+	@Transactional
+	public BulkCardActionResponse bulkRestore(UserPrincipal principal, Long deckId,
+			BulkCardActionRequest request) {
+		return bulkChangeStatus(principal, deckId, request, CardStatus.ACTIVE);
 	}
 
 	@Transactional
@@ -144,6 +160,51 @@ public CardResponse create(UserPrincipal principal, Long deckId, CreateCardReque
 		return cardRepository.findByIdAndDeckOwnerId(cardId, owner.getId())
 				.orElseThrow(() -> new CardNotFoundException(
 						HttpResponseMessage.HTTP_CARD_NOT_FOUND.getMessage()));
+	}
+
+	private Page<CardSummaryResponse> findCards(User owner, Long deckId, CardStatus status,
+			String query, Pageable pageable) {
+		String normalized = query == null ? null : query.trim();
+		if (normalized != null && normalized.length() > 200)
+			throw new IllegalArgumentException("query must not exceed 200 characters");
+		Specification<Card> filters = (root, ignored, builder) -> builder.and(
+				builder.equal(root.get("deck").get("id"), deckId),
+				builder.equal(root.get("deck").get("owner").get("id"), owner.getId()),
+				builder.equal(root.get("deck").get("status"), DeckStatus.ACTIVE),
+				builder.equal(root.get("status"), status));
+		if (normalized != null && !normalized.isEmpty()) {
+			String pattern = "%" + normalized.toLowerCase().replace("\\", "\\\\")
+					.replace("%", "\\%").replace("_", "\\_") + "%";
+			filters = filters.and((root, ignored, builder) -> builder.or(
+					builder.like(builder.lower(root.get("front")), pattern, '\\'),
+					builder.like(builder.lower(root.get("back")), pattern, '\\'),
+					builder.like(builder.lower(root.get("example")), pattern, '\\'),
+					builder.like(builder.lower(root.get("note")), pattern, '\\')));
+		}
+		return cardRepository.findAll(filters, pageable).map(this::toSummary);
+	}
+
+	private BulkCardActionResponse bulkChangeStatus(UserPrincipal principal, Long deckId,
+			BulkCardActionRequest request, CardStatus targetStatus) {
+		User owner = currentUser(principal);
+		Deck deck = findOwnedDeck(owner, deckId);
+		ensureDeckActive(deck);
+		List<Long> ids = new ArrayList<>(new LinkedHashSet<>(request.getCardIds()));
+		List<Card> cards = cardRepository.findAllByDeckIdAndDeckOwnerIdAndIdInOrderByIdAsc(deckId,
+				owner.getId(), ids);
+		if (cards.size() != ids.size())
+			throw new CardNotFoundException(HttpResponseMessage.HTTP_CARD_NOT_FOUND.getMessage());
+		List<Long> changed = new ArrayList<>();
+		List<Long> unchanged = new ArrayList<>();
+		for (Card card : cards) {
+			if (card.getStatus() == targetStatus) unchanged.add(card.getId());
+			else {
+				card.setStatus(targetStatus);
+				changed.add(card.getId());
+			}
+		}
+		return new BulkCardActionResponse(ids.size(), changed.size(), unchanged.size(), changed,
+				unchanged);
 	}
 
 	private void ensureDeckActive(Deck deck) {

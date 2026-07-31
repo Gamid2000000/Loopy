@@ -27,6 +27,7 @@ const value = (status: AuthContextValue["status"]): AuthContextValue => ({
   register: async () => {},
   logout: () => {},
   restoreSession: async () => {},
+  setUser: () => {},
 });
 function renderGuard(status: AuthContextValue["status"], publicOnly = false) {
   return render(

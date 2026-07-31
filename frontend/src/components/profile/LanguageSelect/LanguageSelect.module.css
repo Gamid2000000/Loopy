@@ -1,0 +1,13 @@
+.wrapper {
+  display: grid;
+  gap: var(--spacing-2);
+}
+
+.fieldLabel {
+  color: var(--color-text-secondary);
+}
+
+.warning {
+  color: var(--color-warning);
+  margin: 0;
+}

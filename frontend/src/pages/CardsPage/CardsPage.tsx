@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { paths } from "../../app/paths";
 import { Button } from "../../components/ui/Button";
 import { ErrorState } from "../../components/ui/ErrorState";
@@ -13,20 +13,26 @@ import { CardsSkeleton } from "../../components/cards/CardsSkeleton";
 import { CreateCardModal } from "../../components/cards/CreateCardModal";
 import { EditCardModal } from "../../components/cards/EditCardModal";
 import { RestoreCardDialog } from "../../components/cards/RestoreCardDialog";
+import { CardSearchInput } from "../../components/cards/CardSearchInput";
+import { CardSortSelect } from "../../components/cards/CardSortSelect";
+import { BulkActionBar } from "../../components/cards/BulkActionBar";
 import { useCards } from "../../hooks/useCards";
+import { useCardSelection } from "../../hooks/useCardSelection";
 import type { CreateCardRequest, UpdateCardRequest } from "../../types/card";
 import { formatApiError } from "../../utils/formatApiError";
 import styles from "./CardsPage.module.css";
 
-type Dialog = "create" | "edit" | "archive" | "restore" | null;
+type Dialog = "create" | "edit" | "archive" | "restore" | "bulk" | null;
 
 export function CardsPage() {
   const { deckId } = useParams();
   const id = Number(deckId);
   const cards = useCards(Number.isSafeInteger(id) && id > 0 ? id : null);
+  const navigate = useNavigate();
   const { showToast } = useToast();
   const [dialog, setDialog] = useState<Dialog>(null);
   const [dialogCardId, setDialogCardId] = useState<number | null>(null);
+  const selection = useCardSelection();
   const page = cards.tab === "ACTIVE" ? cards.active : cards.archived;
   const status = cards.tab === "ACTIVE" ? cards.activeStatus : cards.archivedStatus;
   const error = cards.tab === "ACTIVE" ? cards.activeError : cards.archivedError;
@@ -87,6 +93,22 @@ export function CardsPage() {
   };
   const summary = page.content.find((card) => card.id === dialogCardId);
   const dialogFront = cards.selectedCard?.id === dialogCardId ? cards.selectedCard.front : (summary?.front ?? "");
+  const selectPage = () => {
+    const ids = page.content.map((card) => card.id);
+    if (selection.stateFor(ids).allVisibleSelected) selection.clearSelection();
+    else selection.selectCurrentPage(ids);
+  };
+  const submitBulk = async () => {
+    try {
+      if (cards.tab === "ACTIVE") await cards.bulkArchive([...selection.selectedIds]);
+      else await cards.bulkRestore([...selection.selectedIds]);
+      selection.clearSelection();
+      setDialog(null);
+      showToast(cards.tab === "ACTIVE" ? "Карточки архивированы" : "Карточки восстановлены");
+    } catch {
+      // The existing list and selection remain available for retry.
+    }
+  };
   if (cards.deckStatus !== "success")
     return (
       <main className="page">
@@ -112,6 +134,9 @@ export function CardsPage() {
       <div className={styles.headerActions}>
         <h1>Карточки</h1>
         <Button onClick={() => setDialog("create")}>Добавить карточку</Button>
+        <Button variant="secondary" onClick={() => navigate(`/decks/${id}/cards/import`)}>
+          Импортировать
+        </Button>
         <Button variant="secondary" disabled={status === "loading"} onClick={() => void cards.reloadCurrentTab()}>
           Обновить
         </Button>
@@ -125,6 +150,11 @@ export function CardsPage() {
           Архив
         </button>
       </div>
+      <div className={styles.filters}>
+        <CardSearchInput query={cards.query} onSearch={(query) => { selection.clearSelection(); cards.setQuery(query); }} />
+        <CardSortSelect value={cards.sort} onChange={(sort) => { selection.clearSelection(); cards.setSort(sort); }} />
+      </div>
+      {selection.selectedCount > 0 && <BulkActionBar count={selection.selectedCount} archived={cards.tab === "ARCHIVED"} onAction={() => setDialog("bulk" as Dialog)} onClear={selection.clearSelection} />}
       <div className={styles.layout}>
         <section>
           {status === "loading" && <CardsSkeleton />}
@@ -146,6 +176,9 @@ export function CardsPage() {
                 onEdit={(cardId) => openForCard("edit", cardId)}
                 onArchive={(cardId) => openForCard("archive", cardId)}
                 onRestore={(cardId) => openForCard("restore", cardId)}
+                selectedIds={selection.selectedIds}
+                onToggleSelection={selection.toggleCard}
+                onSelectPage={selectPage}
               />
               <CardsPagination page={page} onPage={cards.changePage} onSize={cards.changePageSize} />
             </>
@@ -203,6 +236,13 @@ export function CardsPage() {
           onClose={closeDialog}
           onConfirm={() => void submitRestore()}
         />
+      )}
+      {dialog === "bulk" && (
+        <div className={styles.bulkDialog} role="dialog" aria-modal="true" aria-label="Подтверждение массовой операции">
+          <h2>{cards.tab === "ACTIVE" ? "Архивировать" : "Восстановить"} {selection.selectedCount} карточек?</h2>
+          <Button variant="secondary" onClick={closeDialog}>Отмена</Button>
+          <Button variant="danger" onClick={() => void submitBulk}>{cards.tab === "ACTIVE" ? "Архивировать" : "Восстановить"}</Button>
+        </div>
       )}
     </main>
   );

@@ -99,11 +99,17 @@ class AuthIntegrationTests {
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
-                    "{\"timezone\":\"Europe/Moscow\",\"dailyNewCardsLimit\":20}"))
+                    "{\"timezone\":\"Europe/Moscow\",\"dailyNewCardsLimit\":203}"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.timezone").value("Europe/Moscow"))
-            .andExpect(jsonPath("$.dailyNewCardsLimit").value(20))
+            .andExpect(jsonPath("$.dailyNewCardsLimit").value(203))
             .andExpect(jsonPath("$.dailyReviewLimit").value(100));
+
+        mvc.perform(get("/users/me")
+                .header("Authorization", "Bearer " + token))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.profile.timezone").value("Europe/Moscow"))
+            .andExpect(jsonPath("$.profile.dailyNewCardsLimit").value(203));
 
         mvc.perform(get("/users/me")
                 .header("Authorization", "Bearer bad.token"))

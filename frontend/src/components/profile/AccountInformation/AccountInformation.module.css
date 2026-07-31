@@ -1,0 +1,27 @@
+.card {
+  padding: var(--spacing-6);
+}
+
+.title {
+  margin: 0 0 var(--spacing-4);
+}
+
+.list {
+  display: grid;
+  gap: var(--spacing-4);
+  margin: 0;
+}
+
+.list div {
+  display: grid;
+  gap: var(--spacing-1);
+}
+
+.list dt {
+  color: var(--color-text-muted);
+}
+
+.list dd {
+  margin: 0;
+  color: var(--color-text-primary);
+}

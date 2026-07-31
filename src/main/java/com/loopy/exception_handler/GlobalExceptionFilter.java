@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.loopy.exception.DeckNotFoundException;
 import com.loopy.exception.CardNotFoundException;
+import com.loopy.exception.CardImportException;
 import com.loopy.exception.CardStateConflictException;
 import com.loopy.exception.CardUpdateEmptyException;
 import com.loopy.exception.DeckStateConflictException;
@@ -106,6 +107,15 @@ public class GlobalExceptionFilter {
 	@ExceptionHandler({UserNotFoundException.class, UserProfileNotFoundException.class})
 	public ResponseEntity<JsonErrorResponse> userNotFound(RuntimeException ex) {
 		return error(HttpStatus.NOT_FOUND, "USER_NOT_FOUND", ex.getMessage());
+	}
+
+	@ExceptionHandler(CardImportException.class)
+	public ResponseEntity<JsonErrorResponse> cardImport(CardImportException ex) {
+		String code = ex.getMessage().contains("empty") ? "CARD_IMPORT_EMPTY"
+				: ex.getMessage().contains("Too many rows") ? "CARD_IMPORT_TOO_MANY_ROWS"
+						: ex.getMessage().contains("No valid rows") ? "CARD_IMPORT_NO_VALID_ROWS"
+								: "CARD_IMPORT_INVALID_ROW";
+		return error(HttpStatus.BAD_REQUEST, code, ex.getMessage());
 	}
 
 	@ExceptionHandler(DataIntegrityViolationException.class)

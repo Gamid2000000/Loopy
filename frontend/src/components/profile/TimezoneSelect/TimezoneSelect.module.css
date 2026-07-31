@@ -1,0 +1,8 @@
+.wrapper {
+  display: grid;
+  gap: var(--spacing-2);
+}
+
+.deviceBtn {
+  justify-self: start;
+}

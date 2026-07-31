@@ -1,1 +1,15 @@
-.badge{display:inline-flex;padding:3px 8px;border-radius:999px;font-size:12px;font-weight:600}.ACTIVE{color:var(--color-success);background:color-mix(in srgb,var(--color-success) 15%,transparent)}.ARCHIVED{color:var(--color-text-secondary);background:var(--color-surface-hover)}
+.badge {
+  display: inline-flex;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.ACTIVE {
+  color: var(--color-success);
+  background: color-mix(in srgb, var(--color-success) 15%, transparent);
+}
+.ARCHIVED {
+  color: var(--color-text-secondary);
+  background: var(--color-surface-hover);
+}

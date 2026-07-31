@@ -8,7 +8,12 @@ export function Textarea({ label, error, id, ...props }: Props) {
   return (
     <label className={styles.field} htmlFor={inputId}>
       <span>{label}</span>
-      <textarea id={inputId} aria-invalid={Boolean(error)} aria-describedby={error ? `${inputId}-error` : undefined} {...props} />
+      <textarea
+        id={inputId}
+        aria-invalid={Boolean(error)}
+        aria-describedby={error ? `${inputId}-error` : undefined}
+        {...props}
+      />
       {error && <small id={`${inputId}-error`}>{error}</small>}
     </label>
   );

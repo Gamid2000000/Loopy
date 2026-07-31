@@ -1,0 +1,32 @@
+﻿.root {
+  margin-top: 24px;
+}
+.root > :first-child {
+  width: 190px;
+}
+.metrics,
+.content {
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;
+}
+.metrics {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.content {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.content > :last-child {
+  grid-column: span 2;
+}
+@media (max-width: 1080px) {
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .content {
+    grid-template-columns: 1fr;
+  }
+  .content > :last-child {
+    grid-column: auto;
+  }
+}

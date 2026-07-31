@@ -1,0 +1,1 @@
+export { CardImportResult } from './CardImportResult';

@@ -1,0 +1,301 @@
+﻿front,back,example,note
+apple,яблоко,An apple a day,Фрукт
+book,книга,I read a book,Предмет
+car,машина,The car is fast,Транспорт
+dog,собака,The dog barks,Животное
+house,дом,A big house,Здание
+water,вода,Drink water,Жидкость
+time,время,Time flies,Понятие
+day,день,Have a good day,Время
+night,ночь,Quiet night,Время
+world,мир,The whole world,Понятие
+friend,друг,A loyal friend,Человек
+family,семья,My family,Люди
+mother,мама,My mother cooks,Семья
+father,папа,My father works,Семья
+child,ребёнок,The child plays,Семья
+school,школа,Go to school,Место
+teacher,учитель,The teacher explains,Профессия
+student,студент,A diligent student,Профессия
+work,работа,Hard work pays off,Деятельность
+money,деньги,Save money,Финансы
+food,еда,Good food,Бытовое
+bread,хлеб,Fresh bread,Еда
+milk,молоко,Drink milk,Еда
+coffee,кофе,Morning coffee,Напиток
+tea,чай,Green tea,Напиток
+city,город,Busy city,Место
+street,улица,Walk along the street,Место
+road,дорога,Long road,Место
+tree,дерево,Tall tree,Природа
+flower,цветок,Beautiful flower,Природа
+sun,солнце,The sun shines,Природа
+moon,луна,Bright moon,Природа
+star,звезда,Twinkling star,Природа
+sky,небо,Blue sky,Природа
+rain,дождь,Heavy rain,Погода
+snow,снег,White snow,Погода
+wind,ветер,Strong wind,Погода
+fire,огонь,Warm fire,Стихия
+earth,земля,Green earth,Природа
+mountain,гора,High mountain,Природа
+river,река,Wide river,Природа
+sea,море,Blue sea,Природа
+lake,озеро,Calm lake,Природа
+forest,лес,Deep forest,Природа
+bird,птица,A singing bird,Животное
+cat,кошка,A lazy cat,Животное
+horse,лошадь,A running horse,Животное
+cow,корова,A milking cow,Животное
+fish,рыба,A small fish,Животное
+hand,рука,Raise your hand,Часть тела
+eye,глаз,Brown eyes,Часть тела
+ear,ухо,Big ears,Часть тела
+head,голова,Shake your head,Часть тела
+foot,нога,Left foot,Часть тела
+heart,сердце,Healthy heart,Часть тела
+voice,голос,Loud voice,Свойство
+smile,улыбка,Warm smile,Выражение
+laugh,смех,Loud laugh,Выражение
+song,песня,Beautiful song,Искусство
+music,музыка,Classical music,Искусство
+film,фильм,Interesting film,Искусство
+picture,картина,Old picture,Искусство
+game,игра,Fun game,Досуг
+ball,мяч,Colourful ball,Спорт
+sport,спорт,Team sport,Досуг
+run,бежать,Run fast,Движение
+walk,гулять,Walk in the park,Движение
+jump,прыгать,Jump high,Движение
+swim,плавать,Swim well,Движение
+fly,летать,Birds fly,Движение
+sleep,спать,Sleep deeply,Состояние
+eat,есть,Eat slowly,Действие
+drink,пить,Drink tea,Действие
+read,читать,Read a book,Действие
+write,писать,Write a letter,Действие
+speak,говорить,Speak clearly,Действие
+listen,слушать,Listen to music,Действие
+see,видеть,See the stars,Действие
+watch,смотреть,Watch a film,Действие
+buy,покупать,Buy bread,Действие
+sell,продавать,Sell a car,Действие
+give,давать,Give a present,Действие
+take,брать,Take a book,Действие
+open,открывать,Open the door,Действие
+close,закрывать,Close the window,Действие
+start,начинать,Start work,Действие
+finish,заканчивать,Finish the task,Действие
+help,помогать,Help a friend,Действие
+love,любить,Love your family,Чувство
+hate,ненавидеть,Hate lies,Чувство
+happy,счастливый,A happy day,Прилагательное
+sad,грустный,A sad story,Прилагательное
+big,большой,A big house,Прилагательное
+small,маленький,A small cat,Прилагательное
+fast,быстрый,A fast car,Прилагательное
+slow,медленный,A slow walk,Прилагательное
+new,новый,A new book,Прилагательное
+old,старый,An old tree,Прилагательное
+hot,горячий,Hot tea,Прилагательное
+cold,холодный,Cold water,Прилагательное
+gold,золото,Gold shines,Металл
+silver,серебро,Silver spoon,Металл
+iron,железо,Iron gate,Металл
+stone,камень,Hard stone,Природа
+sand,песок,Soft sand,Природа
+island,остров,Small island,География
+country,страна,Wide country,География
+language,язык,Foreign language,Понятие
+word,слово,Simple word,Понятие
+sentence,предложение,Long sentence,Грамматика
+question,вопрос,Good question,Разговор
+answer,ответ,Correct answer,Разговор
+idea,идея,Bright idea,Мысль
+dream,мечта,Sweet dream,Мысль
+plan,план,Detailed plan,Мысль
+goal,цель,Main goal,Мысль
+memory,память,Good memory,Мышление
+thought,мысль,Deep thought,Мышление
+knowledge,знание,Useful knowledge,Мышление
+science,наука,Modern science,Знание
+history,история,World history,Знание
+culture,культура,Local culture,Знание
+art,искусство,Modern art,Искусство
+story,рассказ,Short story,Литература
+poem,стихотворение,Beautiful poem,Литература
+letter,письмо,Handwritten letter,Коммуникация
+news,новости,Breaking news,Коммуникация
+phone,телефон,Smartphone,Техника
+computer,компьютер,Fast computer,Техника
+internet,интернет,High-speed internet,Техника
+window,окно,Open window,Дом
+door,дверь,Wooden door,Дом
+wall,стена,Brick wall,Дом
+roof,крыша,Red roof,Дом
+floor,пол,Wooden floor,Дом
+room,комната,Bright room,Дом
+kitchen,кухня,Large kitchen,Дом
+table,стол,Round table,Мебель
+chair,стул,Comfortable chair,Мебель
+bed,кровать,Soft bed,Мебель
+clock,часы,Wall clock,Мебель
+lamp,лампа,Desk lamp,Мебель
+garden,сад,Green garden,Место
+park,парк,City park,Место
+village,деревня,Quiet village,Место
+bridge,мост,Old bridge,Инфраструктура
+station,станция,Train station,Инфраструктура
+airport,аэропорт,Big airport,Инфраструктура
+hospital,больница,Modern hospital,Место
+museum,музей,Art museum,Место
+theatre,театр,Drama theatre,Место
+shop,магазин,Small shop,Место
+market,рынок,Open market,Место
+bank,банк,Central bank,Место
+hotel,отель,Luxury hotel,Место
+doctor,врач,Good doctor,Профессия
+engineer,инженер,Civil engineer,Профессия
+scientist,учёный,Famous scientist,Профессия
+artist,художник,Talented artist,Профессия
+writer,писатель,Modern writer,Профессия
+driver,водитель,Bus driver,Профессия
+cook,повар,Great cook,Профессия
+farmer,фермер,Local farmer,Профессия
+spring,весна,Warm spring,Время года
+summer,лето,Hot summer,Время года
+autumn,осень,Golden autumn,Время года
+winter,зима,Cold winter,Время года
+morning,утро,Fresh morning,Время
+evening,вечер,Calm evening,Время
+week,неделя,Busy week,Время
+month,месяц,Long month,Время
+year,год,New year,Время
+hour,час,One hour,Время
+minute,минута,A minute later,Время
+color,цвет,Bright color,Свойство
+red,красный,Red apple,Цвет
+blue,синий,Blue sky,Цвет
+green,зелёный,Green grass,Цвет
+yellow,жёлтый,Yellow sun,Цвет
+black,чёрный,Black cat,Цвет
+white,белый,White snow,Цвет
+brown,коричневый,Brown bear,Цвет
+grey,серый,Grey cloud,Цвет
+tall,высокий,Tall building,Прилагательное
+short,низкий,Short fence,Прилагательное
+long,длинный,Long road,Прилагательное
+wide,широкий,Wide river,Прилагательное
+narrow,узкий,Narrow street,Прилагательное
+heavy,тяжёлый,Heavy box,Прилагательное
+light,лёгкий,Light bag,Прилагательное
+strong,сильный,Strong man,Прилагательное
+weak,слабый,Weak signal,Прилагательное
+beautiful,красивый,Beautiful view,Прилагательное
+ugly,уродливый,Ugly building,Прилагательное
+young,молодой,Young tree,Прилагательное
+rich,богатый,Rich man,Прилагательное
+poor,бедный,Poor family,Прилагательное
+clean,чистый,Clean room,Прилагательное
+dirty,грязный,Dirty shoes,Прилагательное
+sweet,сладкий,Sweet cake,Вкус
+sour,кислый,Sour lemon,Вкус
+salty,солёный,Salty soup,Вкус
+bitter,горький,Bitter medicine,Вкус
+soft,мягкий,Soft pillow,Ощущение
+hard,твёрдый,Hard stone,Ощущение
+warm,тёплый,Warm day,Ощущение
+cool,прохладный,Cool breeze,Ощущение
+dry,сухой,Dry sand,Ощущение
+wet,мокрый,Wet ground,Ощущение
+empty,пустой,Empty room,Состояние
+full,полный,Full glass,Состояние
+bright,яркий,Bright light,Состояние
+closed,закрытый,Closed door,Состояние
+broken,сломанный,Broken window,Состояние
+dark,тёмный,Dark room,Состояние
+right,правильный,Right answer,Качество
+wrong,неправильный,Wrong answer,Качество
+true,верный,True story,Качество
+false,ложный,False claim,Качество
+early,ранний,Early morning,Качество
+late,поздний,Late night,Качество
+ready,готовый,Ready meal,Состояние
+free,свободный,Free time,Состояние
+busy,занятый,Busy street,Состояние
+calm,спокойный,Calm sea,Состояние
+nervous,нервный,Nervous person,Состояние
+brave,храбрый,Brave soldier,Качество
+kind,добрый,Kind heart,Качество
+clever,умный,Clever student,Качество
+lazy,ленивый,Lazy cat,Качество
+polite,вежливый,Polite boy,Качество
+rude,грубый,Rude remark,Качество
+honest,честный,Honest answer,Качество
+careful,осторожный,Careful driver,Качество
+sunny,солнечный,Sunny day,Погода
+cloudy,облачный,Cloudy sky,Погода
+windy,ветреный,Windy evening,Погода
+foggy,туманный,Foggy morning,Погода
+icy,ледяной,Icy road,Погода
+apple tree,яблоня,An old apple tree,Растение
+pine,сосна,Tall pine,Растение
+oak,дуб,Strong oak,Растение
+birch,берёза,White birch,Растение
+grass,трава,Green grass,Растение
+leaf,лист,Yellow leaf,Растение
+root,корень,Deep root,Растение
+branch,ветка,Thick branch,Растение
+berry,ягода,Sweet berry,Растение
+mushroom,гриб,Forest mushroom,Растение
+bus,автобус,City bus,Транспорт
+train,поезд,Express train,Транспорт
+plane,самолёт,Passenger plane,Транспорт
+ship,корабль,Cargo ship,Транспорт
+bicycle,велосипед,Fast bicycle,Транспорт
+duck,утка,White duck,Животное
+rabbit,кролик,Fluffy rabbit,Животное
+fox,лиса,Red fox,Животное
+wolf,волк,Grey wolf,Животное
+bear,медведь,Brown bear,Животное
+tiger,тигр,Striped tiger,Животное
+lion,лев,Mighty lion,Животное
+elephant,слон,Big elephant,Животное
+monkey,обезьяна,Funny monkey,Животное
+pencil,карандаш,Sharp pencil,Школьное
+notebook,тетрадь,Thick notebook,Школьное
+bag,сумка,Leather bag,Предмет
+shoes,обувь,Comfortable shoes,Одежда
+coat,пальто,Winter coat,Одежда
+hat,шляпа,Straw hat,Одежда
+shirt,рубашка,White shirt,Одежда
+dress,платье,Elegant dress,Одежда
+cloud,облако,White cloud,Погода
+storm,буря,Strong storm,Погода
+ice,лёд,Thin ice,Погода
+fog,туман,Thick fog,Погода
+hill,холм,Green hill,Природа
+valley,долина,Wide valley,География
+desert,пустыня,Hot desert,География
+beach,пляж,Sandy beach,География
+ocean,океан,Deep ocean,География
+smell,запах,Sweet smell,Ощущение
+taste,вкус,Good taste,Ощущение
+sound,звук,Loud sound,Ощущение
+touch,прикосновение,Soft touch,Ощущение
+sight,зрение,Sharp sight,Ощущение
+excursion,экскурсия,City excursion,Досуг
+holiday,праздник,Family holiday,Досуг
+birthday,день рождения,Happy birthday,Досуг
+gift,подарок,Nice gift,Досуг
+party,вечеринка,Fun party,Досуг
+dance,танец,Slow dance,Искусство
+photograph,фотография,Old photograph,Искусство
+actor,актёр,Famous actor,Профессия
+singer,певец,Popular singer,Профессия
+lawyer,юрист,Honest lawyer,Профессия
+pilot,пилот,Experienced pilot,Профессия
+soldier,солдат,Brave soldier,Профессия
+policeman,полицейский,Fair policeman,Профессия
+fireman,пожарный,Courageous fireman,Профессия
+nurse,медсестра,Kind nurse,Профессия

@@ -1,1 +1,12 @@
-.controls { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; width: min(100%, 760px); margin: 18px auto 0; } @media (max-width: 620px) { .controls { grid-template-columns: repeat(2, 1fr); } }
+.controls {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: min(100%, 760px);
+  margin: 18px auto 0;
+}
+@media (max-width: 620px) {
+  .controls {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

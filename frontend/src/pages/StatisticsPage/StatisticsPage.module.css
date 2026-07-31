@@ -1,0 +1,32 @@
+﻿.controls {
+  margin-top: 24px;
+}
+.data {
+  margin-top: 24px;
+}
+.panels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 16px;
+  margin-top: 24px;
+}
+.panels > :last-child {
+  grid-column: span 2;
+}
+.state {
+  margin-top: 24px;
+}
+@media (max-width: 1080px) {
+  .panels {
+    grid-template-columns: 1fr;
+  }
+  .panels > :last-child {
+    grid-column: auto;
+  }
+}
+@media (max-width: 640px) {
+  .page :global(header) {
+    flex-wrap: wrap;
+  }
+}

@@ -1,4 +1,20 @@
 export type CardStatus = "ACTIVE" | "ARCHIVED";
+export type CardSort = "UPDATED_DESC" | "CREATED_DESC" | "CREATED_ASC" | "FRONT_ASC" | "FRONT_DESC";
+
+export interface CardListQuery {
+  query?: string;
+  sort: CardSort;
+  page: number;
+  size: number;
+}
+
+export interface BulkCardActionResponse {
+  requestedCount: number;
+  changedCount: number;
+  unchangedCount: number;
+  changedCardIds: number[];
+  unchangedCardIds: number[];
+}
 
 export interface CardSummaryResponse {
   id: number;

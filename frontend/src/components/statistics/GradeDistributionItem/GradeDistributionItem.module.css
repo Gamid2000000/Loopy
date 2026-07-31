@@ -1,0 +1,29 @@
+﻿.item {
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) minmax(80px, 2fr) 46px;
+  gap: 12px;
+  align-items: center;
+}
+.item > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.item span {
+  color: var(--color-text-secondary);
+}
+.track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--color-surface-elevated);
+}
+.track i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+.item small {
+  color: var(--color-text-muted);
+  text-align: right;
+}

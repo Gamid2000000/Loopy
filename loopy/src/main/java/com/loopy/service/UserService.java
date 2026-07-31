@@ -76,6 +76,7 @@ public class UserService {
 			toProfile(userProfileRepository.findByUserId(user.getId()).orElseThrow(() -> new UserNotFoundException(HttpResponseMessage.HTTP_USER_PROFILE_NOT_FOUND.getMessage()))));
 	}
 
+	@Transactional
 	public UserProfileResponse updateCurrentUserProfile(String email, UpdateUserProfileRequest request) {
 		User user = getWithException(email);
 		UserProfile profile = userProfileRepository.findByUserId(user.getId())
@@ -86,6 +87,8 @@ public class UserService {
 		if (request.getTimezone() != null) profile.setTimezone(request.getTimezone());
 		if (request.getDailyNewCardsLimit() != null) profile.setDailyNewCardsLimit(request.getDailyNewCardsLimit());
 		if (request.getDailyReviewLimit() != null) profile.setDailyReviewLimit(request.getDailyReviewLimit());
+
+		userProfileRepository.save(profile);
 		return toProfile(profile);
 	}
 

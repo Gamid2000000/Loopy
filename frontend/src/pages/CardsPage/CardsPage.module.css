@@ -10,10 +10,10 @@
 .tabs {
   display: flex;
   gap: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 .tabs button {
-  padding: 9px 14px;
+  padding: 6px 10px;
   background: transparent;
   border: 0;
   border-bottom: 2px solid transparent;
@@ -27,7 +27,24 @@
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 1.75fr) minmax(300px, 0.85fr);
-  gap: 20px;
+  gap: 12px;
+}
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: end;
+  margin-bottom: 10px;
+}
+.bulkDialog {
+  position: fixed;
+  z-index: 10;
+  top: 30%;
+  left: 30%;
+  padding: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
 }
 .backLink {
   display: inline-block;

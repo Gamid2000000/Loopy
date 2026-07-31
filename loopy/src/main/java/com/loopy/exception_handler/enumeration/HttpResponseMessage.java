@@ -39,7 +39,13 @@ public enum HttpResponseMessage {
 	HTTP_STUDY_SESSION_CARD_NOT_CURRENT("Study session card is not the current pending card"),
 	HTTP_REVIEW_IDEMPOTENCY_CONFLICT("Review idempotency key was already used with different data"),
 	HTTP_NO_CARDS_AVAILABLE("No cards available for study"),
-	HTTP_INVALID_USER_TIMEZONE("User timezone is invalid");
+	HTTP_INVALID_USER_TIMEZONE("User timezone is invalid"),
+
+	// Card Import
+	HTTP_CARD_IMPORT_EMPTY("Card import request is empty"),
+	HTTP_CARD_IMPORT_TOO_MANY_ROWS("Too many rows for import"),
+	HTTP_CARD_IMPORT_NO_VALID_ROWS("No valid rows to import"),
+	HTTP_CARD_IMPORT_INVALID_ROW("Card import row is invalid");
 
 	private final String message;
 

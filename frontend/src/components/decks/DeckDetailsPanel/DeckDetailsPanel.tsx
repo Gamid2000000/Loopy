@@ -15,9 +15,9 @@ export function DeckDetailsPanel({
   studyLoading = false,
 }: {
   deck: DeckResponse;
-  onEdit: () => void;
-  onArchive: () => void;
-  onRestore: () => void;
+  onEdit?: () => void;
+  onArchive?: () => void;
+  onRestore?: () => void;
   onStudy?: () => void;
   studyLoading?: boolean;
 }) {
@@ -54,17 +54,23 @@ export function DeckDetailsPanel({
                 Начать занятие
               </Button>
             )}
-            <Button variant="secondary" fullWidth leftIcon={<EditIcon />} onClick={onEdit}>
-              Редактировать
-            </Button>
-            <Button variant="danger" fullWidth leftIcon={<ArchiveIcon />} onClick={onArchive}>
-              Архивировать
-            </Button>
+            {onEdit && (
+              <Button variant="secondary" fullWidth leftIcon={<EditIcon />} onClick={onEdit}>
+                Редактировать
+              </Button>
+            )}
+            {onArchive && (
+              <Button variant="danger" fullWidth leftIcon={<ArchiveIcon />} onClick={onArchive}>
+                Архивировать
+              </Button>
+            )}
           </>
         ) : (
-          <Button fullWidth leftIcon={<RestoreIcon />} onClick={onRestore}>
-            Восстановить
-          </Button>
+          onRestore && (
+            <Button fullWidth leftIcon={<RestoreIcon />} onClick={onRestore}>
+              Восстановить
+            </Button>
+          )
         )}
       </div>
     </aside>

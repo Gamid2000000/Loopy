@@ -1,0 +1,15 @@
+﻿.card {
+  min-height: 112px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.card p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+.card strong {
+  font-size: 28px;
+  line-height: 1.15;
+}

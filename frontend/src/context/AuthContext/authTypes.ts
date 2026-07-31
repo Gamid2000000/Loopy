@@ -10,4 +10,5 @@ export interface AuthContextValue {
   register(data: RegisterRequest): Promise<void>;
   logout(): void;
   restoreSession(): Promise<void>;
+  setUser(user: CurrentUserResponse | null): void;
 }

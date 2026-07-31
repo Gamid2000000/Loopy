@@ -1,2 +1,11 @@
 import styles from "./StudyAnswer.module.css";
-export function StudyAnswer({ back, example, note }: { back: string; example: string | null; note: string | null }) { return <section className={styles.answer} aria-label="Ответ"><p className={styles.label}>Ответ</p><p className={styles.back}>{back}</p>{example && <p className={styles.example}>{example}</p>}{note && <p className={styles.note}>{note}</p>}</section>; }
+export function StudyAnswer({ back, example, note }: { back: string; example: string | null; note: string | null }) {
+  return (
+    <section className={styles.answer} aria-label="Ответ">
+      <p className={styles.label}>Ответ</p>
+      <p className={styles.back}>{back}</p>
+      {example && <p className={styles.example}>{example}</p>}
+      {note && <p className={styles.note}>{note}</p>}
+    </section>
+  );
+}

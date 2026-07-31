@@ -87,12 +87,16 @@ export function DeckDetailsPage() {
       {deck && (
         <DeckDetailsPanel
           deck={deck}
-          onEdit={() => undefined}
-          onArchive={() => undefined}
-          onRestore={() => undefined}
           onStudy={() => void startStudy()}
           studyLoading={studyLoading}
         />
+      )}
+      {deck && (
+        <p style={{ marginTop: "var(--spacing-4)" }}>
+          <Link to="/decks">
+            <Button variant="secondary">Управление колодами</Button>
+          </Link>
+        </p>
       )}
     </main>
   );

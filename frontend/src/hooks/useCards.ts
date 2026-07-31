@@ -5,6 +5,7 @@ import { getDeck } from "../api/decksApi";
 import type { DeckResponse } from "../types/deck";
 import type {
   CardResponse,
+  CardSort,
   CardStatus,
   CardSummaryResponse,
   CreateCardRequest,
@@ -14,6 +15,7 @@ import type {
 
 export type LoadStatus = "idle" | "loading" | "success" | "error";
 export type CardMutationType = "create" | "update" | "archive" | "restore";
+export type BulkMutationType = "bulkArchive" | "bulkRestore";
 
 const aborted = (value: unknown) => value instanceof DOMException && value.name === "AbortError";
 const errorOf = (value: unknown) => (value instanceof ApiError ? value : new ApiError("HTTP_ERROR", "", 0));
@@ -34,6 +36,8 @@ export function useCards(deckId: number | null) {
   const [deckError, setDeckError] = useState<ApiError | null>(null);
   const [tab, setTab] = useState<CardStatus>("ACTIVE");
   const [pageSize, setPageSize] = useState(50);
+  const [query, setQueryValue] = useState("");
+  const [sort, setSortValue] = useState<CardSort>("UPDATED_DESC");
   const [activePage, setActivePage] = useState(0);
   const [archivedPage, setArchivedPage] = useState(0);
   const [active, setActive] = useState<PageResponse<CardSummaryResponse>>(emptyPage(50));
@@ -90,8 +94,8 @@ export function useCards(deckId: number | null) {
       setError(null);
       try {
         const data = await (status === "ACTIVE"
-          ? cardsApi.getActiveCards(deckId, page, pageSize, controller.signal)
-          : cardsApi.getArchivedCards(deckId, page, pageSize, controller.signal));
+          ? cardsApi.getActiveCards(deckId, { query, sort, page, size: pageSize }, controller.signal)
+          : cardsApi.getArchivedCards(deckId, { query, sort, page, size: pageSize }, controller.signal));
         if (requestId !== listRequestId.current) return;
         (status === "ACTIVE" ? setActive : setArchived)(data);
         setStatus("success");
@@ -102,7 +106,7 @@ export function useCards(deckId: number | null) {
         }
       }
     },
-    [deck?.status, deckId, pageSize],
+    [deck?.status, deckId, pageSize, query, sort],
   );
   const selectCard = useCallback(
     async (cardId: number) => {
@@ -233,6 +237,40 @@ export function useCards(deckId: number | null) {
       }),
     [mutate, removeFromPage],
   );
+  const bulkArchive = useCallback(
+    (cardIds: number[]) =>
+      mutate("archive", async () => {
+        if (deckId === null) throw new ApiError("DECK_NOT_FOUND", "", 404);
+        await cardsApi.bulkArchiveCards(deckId, cardIds);
+        setSelectedCard(null);
+        setSelectedCardId(null);
+        await load("ACTIVE", activePage);
+        setArchivedStatus("idle");
+      }),
+    [activePage, deckId, load, mutate],
+  );
+  const bulkRestore = useCallback(
+    (cardIds: number[]) =>
+      mutate("restore", async () => {
+        if (deckId === null) throw new ApiError("DECK_NOT_FOUND", "", 404);
+        await cardsApi.bulkRestoreCards(deckId, cardIds);
+        setSelectedCard(null);
+        setSelectedCardId(null);
+        await load("ARCHIVED", archivedPage);
+        setActiveStatus("idle");
+      }),
+    [archivedPage, deckId, load, mutate],
+  );
+  const setQuery = useCallback((value: string) => {
+    setQueryValue(value);
+    setActivePage(0);
+    setArchivedPage(0);
+  }, []);
+  const setSort = useCallback((value: CardSort) => {
+    setSortValue(value);
+    setActivePage(0);
+    setArchivedPage(0);
+  }, []);
   const loadActive = useCallback(() => load("ACTIVE", activePage), [activePage, load]);
   const loadArchived = useCallback(() => load("ARCHIVED", archivedPage), [archivedPage, load]);
   const changeTab = useCallback(
@@ -297,6 +335,8 @@ export function useCards(deckId: number | null) {
     mutationType,
     mutationStatus,
     mutationError,
+    query,
+    sort,
     pageSize,
     loadDeck,
     loadActive,
@@ -310,5 +350,9 @@ export function useCards(deckId: number | null) {
     updateCard,
     archiveCard,
     restoreCard,
+    bulkArchive,
+    bulkRestore,
+    setQuery,
+    setSort,
   };
 }

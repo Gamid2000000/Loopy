@@ -1,1 +1,5 @@
-.button { align-self: center; width: min(100%, 240px); margin-top: 38px; }
+.button {
+  align-self: center;
+  width: min(100%, 240px);
+  margin-top: 38px;
+}

@@ -1,2 +1,29 @@
-import { Modal } from "../../ui/Modal"; import { CardEditorForm } from "../CardEditorForm"; import type { CardResponse, UpdateCardRequest } from "../../../types/card";
-export function EditCardModal({card,loading,error,onClose,onUpdate}:{card:CardResponse;loading:boolean;error?:string|null;onClose:()=>void;onUpdate:(v:UpdateCardRequest)=>void}){return <Modal title="Редактировать карточку" busy={loading} onClose={onClose}><CardEditorForm edit initial={{front:card.front,back:card.back,example:card.example??"",note:card.note??""}} loading={loading} error={error} onCancel={onClose} onSubmit={v=>onUpdate(v as UpdateCardRequest)}/></Modal>}
+import { Modal } from "../../ui/Modal";
+import { CardEditorForm } from "../CardEditorForm";
+import type { CardResponse, UpdateCardRequest } from "../../../types/card";
+export function EditCardModal({
+  card,
+  loading,
+  error,
+  onClose,
+  onUpdate,
+}: {
+  card: CardResponse;
+  loading: boolean;
+  error?: string | null;
+  onClose: () => void;
+  onUpdate: (v: UpdateCardRequest) => void;
+}) {
+  return (
+    <Modal title="Редактировать карточку" busy={loading} onClose={onClose}>
+      <CardEditorForm
+        edit
+        initial={{ front: card.front, back: card.back, example: card.example ?? "", note: card.note ?? "" }}
+        loading={loading}
+        error={error}
+        onCancel={onClose}
+        onSubmit={(v) => onUpdate(v as UpdateCardRequest)}
+      />
+    </Modal>
+  );
+}

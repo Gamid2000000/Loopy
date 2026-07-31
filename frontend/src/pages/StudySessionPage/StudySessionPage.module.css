@@ -1,4 +1,25 @@
-.session { min-height: 100vh; background: var(--color-background); }
-.main { display: flex; min-height: calc(100vh - 72px); flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 32px; }
-.progress { width: min(100%, 760px); color: var(--color-text-muted); font-size: 12px; text-align: right; }
-@media (max-width: 640px) { .main { min-height: auto; padding: 24px 16px 40px; } }
+.session {
+  min-height: 100vh;
+  background: var(--color-background);
+}
+.main {
+  display: flex;
+  min-height: calc(100vh - 72px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 32px;
+}
+.progress {
+  width: min(100%, 760px);
+  color: var(--color-text-muted);
+  font-size: 12px;
+  text-align: right;
+}
+@media (max-width: 640px) {
+  .main {
+    min-height: auto;
+    padding: 24px 16px 40px;
+  }
+}

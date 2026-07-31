@@ -85,6 +85,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setStatus("unauthenticated");
         },
         restoreSession,
+        setUser,
       }}
     >
       {children}

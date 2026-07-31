@@ -1,2 +1,28 @@
-import { Modal } from "../../ui/Modal"; import { Button } from "../../ui/Button";
-export function ArchiveCardDialog({front,loading,error,onClose,onConfirm}:{front:string;loading:boolean;error?:string|null;onClose:()=>void;onConfirm:()=>void}){return <Modal title="Архивировать карточку" busy={loading} onClose={onClose}><p>«{front.slice(0,80)}» будет скрыта из активного списка и новых занятий. История повторений сохранится.</p>{error&&<p role="alert">{error}</p>}<Button variant="ghost" disabled={loading} onClick={onClose}>Отмена</Button><Button variant="danger" loading={loading} onClick={onConfirm}>Архивировать</Button></Modal>}
+import { Modal } from "../../ui/Modal";
+import { Button } from "../../ui/Button";
+export function ArchiveCardDialog({
+  front,
+  loading,
+  error,
+  onClose,
+  onConfirm,
+}: {
+  front: string;
+  loading: boolean;
+  error?: string | null;
+  onClose: () => void;
+  onConfirm: () => void;
+}) {
+  return (
+    <Modal title="Архивировать карточку" busy={loading} onClose={onClose}>
+      <p>«{front.slice(0, 80)}» будет скрыта из активного списка и новых занятий. История повторений сохранится.</p>
+      {error && <p role="alert">{error}</p>}
+      <Button variant="ghost" disabled={loading} onClick={onClose}>
+        Отмена
+      </Button>
+      <Button variant="danger" loading={loading} onClick={onConfirm}>
+        Архивировать
+      </Button>
+    </Modal>
+  );
+}

@@ -1,0 +1,24 @@
+.fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.legend {
+  color: var(--color-text-primary);
+  font-size: 18px;
+  font-weight: 600;
+  padding: 0;
+  margin-bottom: var(--spacing-4);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-4);
+}
+
+.hint {
+  color: var(--color-text-muted);
+  margin: var(--spacing-3) 0 0;
+}

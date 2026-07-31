@@ -40,7 +40,7 @@ export function AppSidebar() {
       </nav>
       <footer>
         <strong>{user?.email}</strong>
-        <small>{user?.profile.learningLanguage}</small>
+        <small>{user?.profile?.learningLanguage}</small>
         <Button variant="ghost" fullWidth onClick={logout} leftIcon={<LogoutIcon />}>
           Выйти
         </Button>

@@ -1,17 +1,22 @@
-import type { Streak } from "./dashboard";
+﻿export type StatisticsPeriod = 7 | 30 | 90;
 
-export interface ActivityDay {
+export interface StatisticsActivityDayResponse {
   date: string;
   answersCount: number;
   successfulAnswersCount: number;
   studyTimeMs: number;
 }
 
-export interface GradeDistribution {
-  againCount: number;
-  hardCount: number;
-  goodCount: number;
-  easyCount: number;
+export interface GradeDistributionResponse {
+  again: number;
+  hard: number;
+  good: number;
+  easy: number;
+}
+
+export interface StatisticsStreakResponse {
+  currentDays: number;
+  longestDays: number;
 }
 
 export interface StatisticsOverviewResponse {
@@ -24,7 +29,9 @@ export interface StatisticsOverviewResponse {
   totalStudyTimeMs: number;
   averageResponseTimeMs: number;
   completedSessions: number;
-  gradeDistribution: GradeDistribution;
-  streak: Streak;
-  activity: ActivityDay[];
+  gradeDistribution: GradeDistributionResponse;
+  streak: StatisticsStreakResponse;
+  activity: StatisticsActivityDayResponse[];
 }
+
+export type ActivityDay = StatisticsActivityDayResponse;

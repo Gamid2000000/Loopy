@@ -190,8 +190,8 @@ it("allows only one in-flight archive request", async () => {
 });
 
 it("moves to the previous page after archiving the last item", async () => {
-  vi.mocked(cardsApi.getActiveCards).mockImplementation((_deckId, number) =>
-    Promise.resolve(page(number === 1 ? 2 : 1, number)),
+  vi.mocked(cardsApi.getActiveCards).mockImplementation((_deckId, listQuery) =>
+    Promise.resolve(page(listQuery.page === 1 ? 2 : 1, listQuery.page)),
   );
   vi.mocked(cardsApi.archiveCard).mockResolvedValue();
   const { result } = renderHook(() => useCards(1));

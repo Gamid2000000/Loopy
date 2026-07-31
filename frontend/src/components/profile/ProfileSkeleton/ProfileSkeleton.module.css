@@ -1,0 +1,27 @@
+.grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: var(--spacing-6);
+}
+
+.card {
+  padding: var(--spacing-6);
+  display: grid;
+  gap: var(--spacing-4);
+}
+
+.main {
+  display: grid;
+  gap: var(--spacing-6);
+}
+
+.rows {
+  display: grid;
+  gap: var(--spacing-4);
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-4);
+}

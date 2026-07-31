@@ -1,2 +1,27 @@
-import { Link } from "react-router-dom"; import { Button } from "../../ui/Button"; import type { StudySessionResponse } from "../../../types/studySession";
-export function SessionResult({ session }: { session: StudySessionResponse }) { return <main className="page"><section aria-labelledby="session-result-title"><h1 id="session-result-title">Занятие завершено</h1><p>Пройдено карточек: {session.totalCardsCount}</p>{session.completedAt && <p>Завершено: {new Intl.DateTimeFormat("ru-RU", { dateStyle: "medium", timeStyle: "short" }).format(new Date(session.completedAt))}</p>}<Link to="/dashboard"><Button>На главную</Button></Link> <Link to={`/decks/${session.deckId}`}><Button variant="secondary">К колоде</Button></Link></section></main>; }
+import { Link } from "react-router-dom";
+import { Button } from "../../ui/Button";
+import type { StudySessionResponse } from "../../../types/studySession";
+export function SessionResult({ session }: { session: StudySessionResponse }) {
+  return (
+    <main className="page">
+      <section aria-labelledby="session-result-title">
+        <h1 id="session-result-title">Занятие завершено</h1>
+        <p>Пройдено карточек: {session.totalCardsCount}</p>
+        {session.completedAt && (
+          <p>
+            Завершено:{" "}
+            {new Intl.DateTimeFormat("ru-RU", { dateStyle: "medium", timeStyle: "short" }).format(
+              new Date(session.completedAt),
+            )}
+          </p>
+        )}
+        <Link to="/dashboard">
+          <Button>На главную</Button>
+        </Link>{" "}
+        <Link to={`/decks/${session.deckId}`}>
+          <Button variant="secondary">К колоде</Button>
+        </Link>
+      </section>
+    </main>
+  );
+}
