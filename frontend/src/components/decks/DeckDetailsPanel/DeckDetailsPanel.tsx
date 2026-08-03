@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "../../ui/Button";
-import { CardsIcon, EditIcon, ArchiveIcon, RestoreIcon } from "../../icons/DeckActionIcons";
+import { CardsIcon, PlusIcon, EditIcon, ArchiveIcon, RestoreIcon } from "../../icons/DeckActionIcons";
 import { DeckStatusBadge } from "../DeckStatusBadge";
 import type { DeckResponse } from "../../../types/deck";
 import styles from "./DeckDetailsPanel.module.css";
@@ -44,8 +44,16 @@ export function DeckDetailsPanel({
       <div className={styles.actions}>
         {active ? (
           <>
+            {/* Главное быстрое действие: сразу открывает страницу карточек с формой
+                заполнения новой карточки — не нужно сначала заходить в колоду, а потом
+                искать там кнопку "Добавить карточку" */}
+            <Link to={`/decks/${deck.id}/cards?new=1`}>
+              <Button fullWidth leftIcon={<PlusIcon />}>
+                Добавить карточку
+              </Button>
+            </Link>
             <Link to={`/decks/${deck.id}/cards`}>
-              <Button fullWidth leftIcon={<CardsIcon />}>
+              <Button variant="secondary" fullWidth leftIcon={<CardsIcon />}>
                 Открыть карточки
               </Button>
             </Link>

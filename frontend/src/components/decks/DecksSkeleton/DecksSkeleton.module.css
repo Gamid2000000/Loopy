@@ -1,0 +1,12 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: var(--spacing-6);
+}
+
+.cell {
+  max-width: 260px;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-large);
+  overflow: hidden;
+}

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { getActiveDecks } from "../../api/decksApi";
 import { createStudySession, getActiveStudySession } from "../../api/studySessionsApi";
 import { ApiError } from "../../api/apiError";
-import { DeckList } from "../../components/decks/DeckList";
+import { DeckGrid } from "../../components/decks/DeckGrid";
 import { DecksSkeleton } from "../../components/decks/DecksSkeleton";
 import { EmptyState } from "../../components/ui/EmptyState";
 import { ErrorState } from "../../components/ui/ErrorState";
@@ -11,6 +11,7 @@ import { Button } from "../../components/ui/Button";
 import { PageHeader } from "../../components/layout/PageHeader";
 import { RefreshIcon } from "../../components/icons/RefreshIcon";
 import { useToast } from "../../components/ui/Toast/useToast";
+import { useDeckCardCounts } from "../../hooks/useDeckCardCounts";
 import { formatApiError } from "../../utils/formatApiError";
 import type { DeckSummaryResponse } from "../../types/deck";
 
@@ -24,6 +25,9 @@ export function StudyEntryPage() {
   const navigate = useNavigate();
   const { showToast } = useToast();
   const controller = useRef<AbortController | null>(null);
+  // Количество карточек ("слов") в каждой колоде — показывается прямо на плитке,
+  // ещё до того, как пользователь по ней нажмёт.
+  const cardCounts = useDeckCardCounts(decks.map((deck) => deck.id));
 
   const loadDecks = useCallback(async () => {
     controller.current?.abort();
@@ -107,14 +111,14 @@ export function StudyEntryPage() {
       )}
 
       {decks.length > 0 && (
-        <DeckList
+        // Клик по любой плитке колоды сразу запускает занятие — без выпадающих меню
+        // и лишних кнопок. Пока идёт запуск (studyDeckId выставлен), нажатая плитка
+        // показывает спиннер и блокируется от повторного клика.
+        <DeckGrid
           decks={decks}
-          selectedId={null}
-          onSelect={() => {}}
-          onEdit={() => {}}
-          onArchive={() => {}}
-          onRestore={() => {}}
-          onStudy={(deck) => void startStudy(deck)}
+          cardCounts={cardCounts}
+          busyId={studyDeckId}
+          onTileClick={(deck) => void startStudy(deck)}
         />
       )}
 

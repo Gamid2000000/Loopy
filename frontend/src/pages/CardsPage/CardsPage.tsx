@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { paths } from "../../app/paths";
 import { Button } from "../../components/ui/Button";
 import { ErrorState } from "../../components/ui/ErrorState";
@@ -30,8 +30,28 @@ export function CardsPage() {
   const cards = useCards(Number.isSafeInteger(id) && id > 0 ? id : null);
   const navigate = useNavigate();
   const { showToast } = useToast();
-  const [dialog, setDialog] = useState<Dialog>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  // Если сюда перешли по кнопке "Добавить карточку" из панели колоды (со ссылкой
+  // вида /decks/:id/cards?new=1) — сразу открываем форму создания карточки, читая
+  // параметр прямо при инициализации состояния (без лишнего рендера через эффект).
+  const [dialog, setDialog] = useState<Dialog>(() => (searchParams.get("new") === "1" ? "create" : null));
   const [dialogCardId, setDialogCardId] = useState<number | null>(null);
+
+  // Параметр ?new=1 нужен был только чтобы один раз открыть форму при переходе —
+  // убираем его из адресной строки, чтобы обновление страницы (F5) не открывало
+  // форму создания карточки повторно.
+  useEffect(() => {
+    if (searchParams.get("new") !== "1") return;
+    setSearchParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        next.delete("new");
+        return next;
+      },
+      { replace: true },
+    );
+  }, [searchParams, setSearchParams]);
+
   const selection = useCardSelection();
   const page = cards.tab === "ACTIVE" ? cards.active : cards.archived;
   const status = cards.tab === "ACTIVE" ? cards.activeStatus : cards.archivedStatus;

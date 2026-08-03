@@ -8,7 +8,7 @@ import { Skeleton } from "../../components/ui/Skeleton";
 import { useToast } from "../../components/ui/Toast";
 import { PlusIcon } from "../../components/icons/DeckActionIcons";
 import { RefreshIcon } from "../../components/icons/RefreshIcon";
-import { DeckList } from "../../components/decks/DeckList";
+import { DeckGrid } from "../../components/decks/DeckGrid";
 import { DeckDetailsPanel } from "../../components/decks/DeckDetailsPanel";
 import { DecksSkeleton } from "../../components/decks/DecksSkeleton";
 import { CreateDeckModal } from "../../components/decks/CreateDeckModal";
@@ -16,6 +16,7 @@ import { EditDeckModal } from "../../components/decks/EditDeckModal";
 import { ArchiveDeckDialog } from "../../components/decks/ArchiveDeckDialog";
 import { RestoreDeckDialog } from "../../components/decks/RestoreDeckDialog";
 import { useDecks } from "../../hooks/useDecks";
+import { useDeckCardCounts } from "../../hooks/useDeckCardCounts";
 import type { CreateDeckRequest, DeckSummaryResponse, UpdateDeckRequest } from "../../types/deck";
 import { formatApiError } from "../../utils/formatApiError";
 import { ApiError } from "../../api/apiError";
@@ -33,15 +34,14 @@ export function DecksPage() {
   const list = decks.tab === "ACTIVE" ? decks.activeDecks : decks.archivedDecks;
   const status = decks.tab === "ACTIVE" ? decks.activeStatus : decks.archivedStatus;
   const listError = decks.tab === "ACTIVE" ? decks.activeError : decks.archivedError;
+  // Количество карточек ("слов") в каждой колоде текущей вкладки — показывается прямо
+  // на плитке колоды, чтобы было видно объём колоды ещё до открытия.
+  const cardCounts = useDeckCardCounts(list.map((deck) => deck.id));
   const close = () => {
     if (decks.mutationStatus !== "loading") {
       setDialog(null);
       setError(null);
     }
-  };
-  const act = (kind: Exclude<Dialog, "create" | "edit">, deck: DeckSummaryResponse) => {
-    setTarget(deck);
-    setDialog(kind);
   };
   const create = async (request: CreateDeckRequest) => {
     setError(null);
@@ -155,17 +155,11 @@ export function DecksPage() {
                 )}
               </div>
             ) : (
-              <DeckList
+              <DeckGrid
                 decks={list}
+                cardCounts={cardCounts}
                 selectedId={decks.selectedDeckId}
-                onSelect={(id) => void decks.selectDeck(id)}
-                onEdit={(deck) => {
-                  void decks.selectDeck(deck.id);
-                  setDialog("edit");
-                }}
-                onArchive={(deck) => act("archive", deck)}
-                onRestore={(deck) => act("restore", deck)}
-                onStudy={(deck) => void startStudy(deck)}
+                onTileClick={(deck) => void decks.selectDeck(deck.id)}
               />
             )}
           </section>

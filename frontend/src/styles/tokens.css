@@ -18,6 +18,15 @@
   --color-warning: #ffaa45;
   --color-danger: #ff6577;
   --color-info: #55a7ff;
+  --color-deck-face: #ecdfc4; /* лицевая сторона верхней карточки */
+  --color-deck-face-hover: #f3e9d2; /* лицевая сторона при наведении/фокусе */
+  --color-deck-edge: #cbb27f; /* тонкая рамка-кант карточки */
+  --color-deck-behind-1: #ddcaa0; /* вторая карточка в стопке (видна как "хвостик" позади) */
+  --color-deck-behind-2: #c9b485; /* третья карточка в стопке, самая нижняя и тёмная */
+  --color-deck-text: #4a3a20; /* основной текст на бежевом фоне (тёмно-коричневый) */
+  --color-deck-text-secondary: #7a6845; /* второстепенный текст на бежевом фоне */
+  --color-deck-archived-face: #d9d3c1; /* лицевая сторона архивной (неактивной) колоды — тусклее */
+  --color-deck-archived-edge: #b7b09a;
   --radius-small: 8px;
   --radius-medium: 12px;
   --radius-large: 16px;
