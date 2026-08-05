@@ -1,8 +1,12 @@
 .layout {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: grid;
   place-items: center;
   padding: var(--spacing-6);
+}
+@media (max-width: 479px) {
+  .layout { padding: var(--spacing-4); }
+  .card { padding: var(--spacing-6); }
 }
 .card {
   width: min(440px, 100%);

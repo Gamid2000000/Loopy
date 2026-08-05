@@ -16,3 +16,4 @@
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-4);
 }
+@media (max-width: 767px) { .languageGrid { grid-template-columns: 1fr; } }

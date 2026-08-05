@@ -1,6 +1,11 @@
 * {
   box-sizing: border-box;
 }
+html,
+body,
+#root {
+  min-height: 100%;
+}
 body,
 h1,
 h2,
@@ -16,4 +21,9 @@ select {
 }
 button {
   cursor: pointer;
+}
+img,
+svg,
+video {
+  max-width: 100%;
 }

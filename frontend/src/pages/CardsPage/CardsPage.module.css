@@ -29,6 +29,8 @@
   grid-template-columns: minmax(0, 1.75fr) minmax(300px, 0.85fr);
   gap: 12px;
 }
+.listPanel, .previewPanel { min-width: 0; }
+.mobileBack { display: none; }
 .filters {
   display: flex;
   gap: 12px;
@@ -58,4 +60,13 @@
   .headerActions {
     width: 100%;
   }
+}
+@media (max-width: 767px) {
+  .headerActions > h1 { width: 100%; overflow-wrap: anywhere; }
+  .headerActions > button { flex: 1 1 140px; }
+  .filters > * { min-width: 0; flex: 1 1 180px; }
+  .layout.previewOpen .listPanel { display: none; }
+  .layout:not(.previewOpen) .previewPanel { display: none; }
+  .mobileBack { display: inline-flex; margin-bottom: var(--spacing-3); }
+  .bulkDialog { top: 12px; left: 12px; right: 12px; z-index: var(--z-modal); max-height: calc(100dvh - 24px); overflow-y: auto; }
 }

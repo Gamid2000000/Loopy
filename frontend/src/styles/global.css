@@ -1,5 +1,5 @@
 body {
-  min-width: 1024px;
+  min-width: 0;
   background: radial-gradient(circle at 70% 10%, #142751 0, transparent 30%), var(--color-background);
   color: var(--color-text-primary);
   font-family: var(--font-family-primary);
@@ -28,12 +28,15 @@ textarea:focus-visible {
   border: 0;
 }
 .page {
-  padding: var(--spacing-8);
-  max-width: 1320px;
-  margin: auto;
+  width: 100%;
+  max-width: 1440px;
+  min-width: 0;
+  margin-inline: auto;
+  padding: clamp(24px, 3vw, 40px) var(--page-padding);
 }
 .pageTitle {
-  font-size: 28px;
+  font-size: clamp(24px, 3vw, 28px);
+  overflow-wrap: anywhere;
 }
 .pageSubtitle {
   color: var(--color-text-secondary);
@@ -42,4 +45,9 @@ textarea:focus-visible {
 .grid {
   display: grid;
   gap: var(--spacing-4);
+}
+@media (max-width: 479px) {
+  :root {
+    --page-padding: 12px;
+  }
 }

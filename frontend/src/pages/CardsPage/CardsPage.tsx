@@ -175,8 +175,8 @@ export function CardsPage() {
         <CardSortSelect value={cards.sort} onChange={(sort) => { selection.clearSelection(); cards.setSort(sort); }} />
       </div>
       {selection.selectedCount > 0 && <BulkActionBar count={selection.selectedCount} archived={cards.tab === "ARCHIVED"} onAction={() => setDialog("bulk" as Dialog)} onClear={selection.clearSelection} />}
-      <div className={styles.layout}>
-        <section>
+      <div className={`${styles.layout} ${cards.selectedCard ? styles.previewOpen : ""}`}>
+        <section className={styles.listPanel}>
           {status === "loading" && <CardsSkeleton />}
           {status === "error" && (
             <ErrorState message={formatApiError(error)} onRetry={() => void cards.reloadCurrentTab()} />
@@ -204,7 +204,8 @@ export function CardsPage() {
             </>
           )}
         </section>
-        <section>
+        <section className={styles.previewPanel}>
+          {cards.selectedCard && <Button className={styles.mobileBack} variant="ghost" onClick={() => cards.clearSelectedCard?.()}>← Назад к списку</Button>}
           {cards.selectedCardStatus === "loading" && <CardsSkeleton />}
           {cards.selectedCardError && (
             <ErrorState

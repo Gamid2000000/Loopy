@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+}
+.header > :first-child {
+  min-width: 0;
+}
+@media (max-width: 767px) {
+  .header {
+    flex-direction: column;
+  }
+  .header > :last-child:not(:first-child) {
+    width: 100%;
+  }
+}

@@ -43,3 +43,8 @@
     grid-template-columns: 1fr;
   }
 }
+@media (max-width: 767px) {
+  .tabs { flex-wrap: wrap; }
+  .refresh { margin-left: 0; }
+  .placeholder { min-height: 220px; padding: var(--spacing-4); }
+}

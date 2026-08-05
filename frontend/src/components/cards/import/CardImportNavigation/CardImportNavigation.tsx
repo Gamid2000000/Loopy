@@ -1,6 +1,7 @@
 import { Button } from "../../../ui/Button";
 import { ArrowLeftIcon, ArrowRightIcon } from "../../../icons/ImportIcons";
 import type { ImportStep } from "../../../../types/cardImport";
+import styles from "./CardImportNavigation.module.css";
 
 interface Props {
   step: ImportStep;
@@ -21,13 +22,7 @@ export function CardImportNavigation({
 }: Props) {
   if (step === "result") return null;
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        marginTop: "var(--spacing-6)",
-      }}
-    >
+    <div className={styles.navigation}>
       {onBack ? (
         <Button variant="ghost" onClick={onBack} leftIcon={<ArrowLeftIcon size={16} />}>
           Назад

@@ -1,7 +1,7 @@
 /* На весь экран, содержимое центрируется и по вертикали, и по горизонтали */
 .wrapper {
   display: flex;
-  min-height: 100vh;
+  min-height: 100dvh;
   align-items: center;
   justify-content: center;
   padding: var(--spacing-8);

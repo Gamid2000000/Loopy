@@ -138,6 +138,13 @@ export function useCards(deckId: number | null) {
     },
     [archived.content, tab],
   );
+  const clearSelectedCard = useCallback(() => {
+    detailController.current?.abort();
+    setSelectedCardId(null);
+    setSelectedCard(null);
+    setSelectedCardError(null);
+    setSelectedCardStatus("idle");
+  }, []);
   const mutate = useCallback(async <T>(type: CardMutationType, action: () => Promise<T>) => {
     if (inFlight.current.has(type)) throw new ApiError("MUTATION_IN_PROGRESS", "", 0);
     inFlight.current.add(type);
@@ -353,6 +360,7 @@ export function useCards(deckId: number | null) {
     loadArchived,
     reloadCurrentTab,
     selectCard,
+    clearSelectedCard,
     changeTab,
     changePage,
     changePageSize,
