@@ -9,7 +9,7 @@
   border: 1px solid var(--color-border);
   border-radius: 20px;
   background: var(--color-surface);
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 18px 48px var(--color-shadow);
 }
 .revealed {
   min-height: 430px;
@@ -22,4 +22,9 @@
     border-radius: 16px;
   }
 }
-@media (max-width: 479px) { .card { min-height: 0; padding: var(--spacing-4); } }
+@media (max-width: 479px) {
+  .card {
+    min-height: 0;
+    padding: var(--spacing-4);
+  }
+}

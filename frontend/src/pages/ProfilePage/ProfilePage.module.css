@@ -19,7 +19,7 @@
 .formError {
   margin-top: var(--spacing-4);
   padding: var(--spacing-4);
-  background: rgba(255, 101, 119, 0.12);
+  background: var(--color-danger-subtle);
   border: 1px solid var(--color-danger);
   border-radius: var(--radius-small);
   color: var(--color-danger);
@@ -42,9 +42,16 @@
   justify-content: flex-end;
 }
 @media (max-width: 767px) {
-  .layout { grid-template-columns: minmax(0, 1fr); gap: var(--spacing-4); }
-  .leaveActions { flex-wrap: wrap; }
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-4);
+  }
+  .leaveActions {
+    flex-wrap: wrap;
+  }
 }
 @media (max-width: 479px) {
-  .layout { margin-top: var(--spacing-4); }
+  .layout {
+    margin-top: var(--spacing-4);
+  }
 }

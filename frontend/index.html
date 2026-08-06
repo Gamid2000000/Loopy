@@ -1,9 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Loopy</title>
+    <script>
+      (function () {
+        try {
+          var preference = localStorage.getItem("loopy.theme");
+          if (preference !== "light" && preference !== "dark" && preference !== "system") preference = "system";
+          var dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var theme = preference === "system" ? (dark ? "dark" : "light") : preference;
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.dataset.themePreference = preference;
+          document.documentElement.style.colorScheme = theme;
+        } catch (_) {
+          document.documentElement.dataset.theme = "dark";
+          document.documentElement.dataset.themePreference = "system";
+          document.documentElement.style.colorScheme = "dark";
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

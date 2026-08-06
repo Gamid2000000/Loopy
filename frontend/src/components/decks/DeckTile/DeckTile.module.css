@@ -38,7 +38,9 @@
   transform: translateY(-4px);
   border-color: var(--color-primary);
   background: var(--color-surface-hover);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--color-primary-muted);
+  box-shadow:
+    0 12px 24px var(--color-shadow),
+    0 0 0 1px var(--color-primary-muted);
 }
 .tile:focus-visible {
   outline: 2px solid var(--color-primary-light);

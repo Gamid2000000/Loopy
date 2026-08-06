@@ -6,10 +6,10 @@
   font-weight: 600;
 }
 .active {
-  background: rgba(79, 209, 139, 0.14);
+  background: var(--color-success-subtle);
   color: var(--color-success);
 }
 .archived {
-  background: rgba(255, 170, 69, 0.16);
+  background: var(--color-warning-subtle);
   color: var(--color-warning);
 }

@@ -1,32 +1,127 @@
-:root {
+:root,
+:root[data-theme="dark"] {
   --color-background: #060b1a;
+  --color-background-subtle: #0a132b;
   --color-sidebar: #09142d;
+  --color-header: #09142d;
   --color-surface: #0e1b3d;
   --color-surface-elevated: #142751;
   --color-surface-hover: #182d5a;
+  --color-surface-active: #1d3568;
+  --color-surface-disabled: #111d3d;
   --color-border: #243a6a;
+  --color-border-strong: #35518a;
+  --color-divider: #243a6a;
+  --color-text-primary: #f7f7ff;
+  --color-text-secondary: #9ea9cc;
+  --color-text-muted: #69769c;
+  --color-text-disabled: #56627f;
+  --color-text-inverse: #ffffff;
   --color-primary: #7c3aed;
   --color-primary-hover: #8b5cf6;
   --color-primary-active: #6d28d9;
   --color-primary-light: #a78bfa;
-  --color-primary-muted: rgba(124, 58, 237, 0.16);
+  --color-primary-subtle: rgba(124, 58, 237, 0.16);
+  --color-primary-muted: var(--color-primary-subtle);
+  --color-primary-border: rgba(167, 139, 250, 0.5);
   --color-primary-glow: rgba(124, 58, 237, 0.35);
-  --color-text-primary: #f7f7ff;
-  --color-text-secondary: #9ea9cc;
-  --color-text-muted: #69769c;
   --color-success: #4fd18b;
+  --color-success-subtle: rgba(79, 209, 139, 0.14);
+  --color-success-border: rgba(79, 209, 139, 0.45);
   --color-warning: #ffaa45;
+  --color-warning-subtle: rgba(255, 170, 69, 0.16);
+  --color-warning-border: rgba(255, 170, 69, 0.45);
   --color-danger: #ff6577;
+  --color-danger-hover: #ff8290;
+  --color-danger-subtle: rgba(255, 101, 119, 0.12);
+  --color-danger-border: rgba(255, 101, 119, 0.5);
   --color-info: #55a7ff;
-  --color-deck-face: #ecdfc4; /* лицевая сторона верхней карточки */
-  --color-deck-face-hover: #f3e9d2; /* лицевая сторона при наведении/фокусе */
-  --color-deck-edge: #cbb27f; /* тонкая рамка-кант карточки */
-  --color-deck-behind-1: #ddcaa0; /* вторая карточка в стопке (видна как "хвостик" позади) */
-  --color-deck-behind-2: #c9b485; /* третья карточка в стопке, самая нижняя и тёмная */
-  --color-deck-text: #4a3a20; /* основной текст на бежевом фоне (тёмно-коричневый) */
-  --color-deck-text-secondary: #7a6845; /* второстепенный текст на бежевом фоне */
-  --color-deck-archived-face: #d9d3c1; /* лицевая сторона архивной (неактивной) колоды — тусклее */
+  --color-info-subtle: rgba(85, 167, 255, 0.14);
+  --color-info-border: rgba(85, 167, 255, 0.45);
+  --color-focus-ring: #a78bfa;
+  --color-backdrop: rgba(2, 6, 20, 0.72);
+  --color-shadow: rgba(0, 0, 0, 0.35);
+  --color-input-background: var(--color-surface);
+  --color-input-border: var(--color-border);
+  --color-input-placeholder: var(--color-text-muted);
+  --color-scrollbar-track: var(--color-background-subtle);
+  --color-scrollbar-thumb: var(--color-border-strong);
+  --color-skeleton-base: var(--color-surface-elevated);
+  --color-skeleton-highlight: var(--color-surface-hover);
+  --color-chart-grid: rgba(36, 58, 106, 0.4);
+  --color-deck-face: #ecdfc4;
+  --color-deck-face-hover: #f3e9d2;
+  --color-deck-edge: #cbb27f;
+  --color-deck-behind-1: #ddcaa0;
+  --color-deck-behind-2: #c9b485;
+  --color-deck-text: #4a3a20;
+  --color-deck-text-secondary: #7a6845;
+  --color-deck-archived-face: #d9d3c1;
   --color-deck-archived-edge: #b7b09a;
+}
+
+:root[data-theme="light"] {
+  --color-background: #f5f7fc;
+  --color-background-subtle: #eef2fa;
+  --color-sidebar: #ffffff;
+  --color-header: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #f8faff;
+  --color-surface-hover: #eef2ff;
+  --color-surface-active: #e7e9ff;
+  --color-surface-disabled: #eef1f6;
+  --color-border: #d8deec;
+  --color-border-strong: #b8c2d8;
+  --color-divider: #d8deec;
+  --color-text-primary: #172033;
+  --color-text-secondary: #4e5d78;
+  --color-text-muted: #65738d;
+  --color-text-disabled: #9aa5b7;
+  --color-text-inverse: #ffffff;
+  --color-primary: #6d35d9;
+  --color-primary-hover: #5f2bc5;
+  --color-primary-active: #5123ad;
+  --color-primary-light: #6d35d9;
+  --color-primary-subtle: #eee8ff;
+  --color-primary-muted: var(--color-primary-subtle);
+  --color-primary-border: #cbbdff;
+  --color-primary-glow: rgba(109, 53, 217, 0.2);
+  --color-success: #178a55;
+  --color-success-subtle: #e6f6ee;
+  --color-success-border: #a9dfc1;
+  --color-warning: #b86708;
+  --color-warning-subtle: #fff2df;
+  --color-warning-border: #f0c68f;
+  --color-danger: #d33d51;
+  --color-danger-hover: #bd2940;
+  --color-danger-subtle: #ffeaed;
+  --color-danger-border: #efb6c0;
+  --color-info: #2379d3;
+  --color-info-subtle: #e8f2ff;
+  --color-info-border: #adcbed;
+  --color-focus-ring: #6d35d9;
+  --color-backdrop: rgba(23, 32, 51, 0.45);
+  --color-shadow: rgba(23, 32, 51, 0.18);
+  --color-input-background: #ffffff;
+  --color-input-border: #b8c2d8;
+  --color-input-placeholder: #77839b;
+  --color-scrollbar-track: #eef2fa;
+  --color-scrollbar-thumb: #b8c2d8;
+  --color-skeleton-base: #e7ebf4;
+  --color-skeleton-highlight: #f8faff;
+  --color-chart-grid: rgba(184, 194, 216, 0.65);
+  --color-deck-face: #f2e6cd;
+  --color-deck-face-hover: #fbf0db;
+  --color-deck-edge: #cbb27f;
+  --color-deck-behind-1: #e6d3ad;
+  --color-deck-behind-2: #d2bd92;
+  --color-deck-text: #4a3a20;
+  --color-deck-text-secondary: #6b5a3a;
+  --color-deck-archived-face: #dedbd1;
+  --color-deck-archived-edge: #b8b4a6;
+}
+
+:root {
   --radius-small: 8px;
   --radius-medium: 12px;
   --radius-large: 16px;

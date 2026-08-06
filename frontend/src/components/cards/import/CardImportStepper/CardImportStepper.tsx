@@ -8,11 +8,7 @@ const steps: { key: ImportStep; label: string }[] = [
   { key: "result", label: "Результат" },
 ];
 
-export function CardImportStepper({
-  current,
-}: {
-  current: ImportStep;
-}) {
+export function CardImportStepper({ current }: { current: ImportStep }) {
   const currentIdx = steps.findIndex((s) => s.key === current);
   return (
     <nav aria-label="Этапы импорта" style={{ marginBottom: "var(--spacing-6)" }}>
@@ -58,7 +54,11 @@ export function CardImportStepper({
                     : done
                       ? "var(--color-primary-muted)"
                       : "var(--color-surface-elevated)",
-                  color: active ? "#fff" : done ? "var(--color-primary)" : "var(--color-text-muted)",
+                  color: active
+                    ? "var(--color-text-inverse)"
+                    : done
+                      ? "var(--color-primary)"
+                      : "var(--color-text-muted)",
                   border: !active && !done ? "1px solid var(--color-border)" : "none",
                   fontSize: 13,
                   fontWeight: 600,
@@ -67,9 +67,7 @@ export function CardImportStepper({
               >
                 {done ? <CheckIcon size={14} /> : i + 1}
               </span>
-              <span style={{ display: i < steps.length - 1 ? undefined : "none" }}>
-                {step.label}
-              </span>
+              <span style={{ display: i < steps.length - 1 ? undefined : "none" }}>{step.label}</span>
               {i < steps.length - 1 && (
                 <span
                   style={{

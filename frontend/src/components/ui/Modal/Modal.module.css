@@ -5,7 +5,7 @@
   display: grid;
   place-items: center;
   padding: 16px;
-  background: rgba(2, 6, 20, 0.72);
+  background: var(--color-backdrop);
 }
 .modal {
   width: min(520px, calc(100vw - 32px));
@@ -15,11 +15,16 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-large);
   background: var(--color-surface);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 24px 80px var(--color-shadow);
 }
 @media (max-width: 479px) {
-  .backdrop { padding: 12px; }
-  .modal { width: calc(100vw - 24px); padding: var(--spacing-4); }
+  .backdrop {
+    padding: 12px;
+  }
+  .modal {
+    width: calc(100vw - 24px);
+    padding: var(--spacing-4);
+  }
 }
 .modal h2 {
   margin-bottom: 20px;

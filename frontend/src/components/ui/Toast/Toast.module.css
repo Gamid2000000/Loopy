@@ -8,14 +8,17 @@
   padding: 14px 18px;
   border-radius: var(--radius-medium);
   color: var(--color-text-primary);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 32px var(--color-shadow);
 }
 @media (max-width: 767px) {
-  .toast { right: 16px; bottom: calc(16px + env(safe-area-inset-bottom)); }
+  .toast {
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+  }
 }
 .success {
-  background: #166534;
+  background: var(--color-success);
 }
 .error {
-  background: #9f1239;
+  background: var(--color-danger);
 }

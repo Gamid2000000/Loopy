@@ -2,6 +2,7 @@ import { Card } from "../../ui/Card";
 import { DailyLimitsForm } from "../DailyLimitsForm";
 import { LanguageSelect } from "../LanguageSelect";
 import { TimezoneSelect } from "../TimezoneSelect";
+import { ThemeSelector } from "../ThemeSelector";
 import styles from "./ProfileForm.module.css";
 import type { UserProfileResponse } from "../../../types/user";
 
@@ -42,6 +43,10 @@ export function ProfileForm({ draft, fieldErrors, onDraftChange }: Props) {
           error={fieldErrors.timezone}
           onChange={(value) => onDraftChange((prev) => ({ ...prev, timezone: value }))}
         />
+      </Card>
+
+      <Card className={styles.section}>
+        <ThemeSelector />
       </Card>
 
       <Card className={styles.section}>

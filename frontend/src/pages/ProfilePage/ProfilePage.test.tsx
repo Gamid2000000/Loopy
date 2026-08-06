@@ -4,6 +4,7 @@ import { AuthContext } from "../../context/AuthContext/AuthContext";
 import { ToastContext } from "../../components/ui/Toast/ToastContext";
 import { ProfilePage } from "./ProfilePage";
 import type { AuthContextValue } from "../../context/AuthContext/authTypes";
+import { ThemeProvider } from "../../theme";
 
 vi.mock("../../hooks/useProfile", () => ({
   useProfile: vi.fn(),
@@ -42,13 +43,15 @@ const toastValue = { showToast: vi.fn() };
 
 function renderProfile() {
   return render(
-    <ToastContext.Provider value={toastValue}>
-      <AuthContext.Provider value={authValue}>
-        <MemoryRouter>
-          <ProfilePage />
-        </MemoryRouter>
-      </AuthContext.Provider>
-    </ToastContext.Provider>,
+    <ThemeProvider>
+      <ToastContext.Provider value={toastValue}>
+        <AuthContext.Provider value={authValue}>
+          <MemoryRouter>
+            <ProfilePage />
+          </MemoryRouter>
+        </AuthContext.Provider>
+      </ToastContext.Provider>
+    </ThemeProvider>,
   );
 }
 
@@ -168,4 +171,19 @@ it("email is rendered as read-only text", () => {
   const email = screen.getByText("test@loopy.test");
   const dd = email.closest("dd");
   expect(dd?.getAttribute("aria-readonly")).toBe("true");
+});
+
+it("changes theme without changing the profile draft", () => {
+  const setDraftField = vi.fn();
+  const clearSaveStatus = vi.fn();
+  vi.mocked(useProfile).mockReturnValue({
+    ...vi.mocked(useProfile)(),
+    setDraftField,
+    clearSaveStatus,
+  } as ReturnType<typeof useProfile>);
+  renderProfile();
+  screen.getByRole("radio", { name: /Светлая/ }).click();
+  expect(document.documentElement.dataset.theme).toBe("light");
+  expect(setDraftField).not.toHaveBeenCalled();
+  expect(clearSaveStatus).not.toHaveBeenCalled();
 });
