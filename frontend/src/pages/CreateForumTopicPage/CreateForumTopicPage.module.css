@@ -1,0 +1,1 @@
+.page { padding-top:var(--space-8); padding-bottom:var(--space-8); } .form { display:grid; gap:var(--space-4); max-width:760px; } .form div { display:flex; flex-wrap:wrap; gap:var(--space-3); }

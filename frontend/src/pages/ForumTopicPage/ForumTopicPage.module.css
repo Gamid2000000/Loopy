@@ -1,0 +1,90 @@
+.page {
+  --forum-accent: #8b5cf6;
+  --forum-panel: #11101a;
+  --forum-border: #39314e;
+  display: grid;
+  gap: var(--spacing-6);
+  min-height: 720px;
+  padding-top: clamp(40px, 7vw, 80px);
+  padding-bottom: clamp(56px, 8vw, 104px);
+  background-image:
+    linear-gradient(rgba(139, 92, 246, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 92, 246, 0.06) 1px, transparent 1px),
+    radial-gradient(circle at 16% 4%, rgba(91, 48, 180, 0.2), transparent 32%);
+  background-size:
+    30px 30px,
+    30px 30px,
+    auto;
+}
+.page :global(.pageTitle) {
+  font-size: clamp(32px, 4vw, 50px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+}
+.posts {
+  display: grid;
+  gap: 24px;
+  max-width: 1120px;
+}
+
+.posts :global(section) {
+  padding: 0;
+  background: color-mix(in srgb, var(--forum-panel), var(--color-surface) 12%);
+  border-color: var(--forum-border);
+  border-radius: 24px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+.reply {
+  display: grid;
+  gap: var(--spacing-4);
+  max-width: 1120px;
+  padding: var(--spacing-6);
+  border: 1px solid var(--forum-border);
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--forum-panel), var(--color-surface) 12%);
+}
+.reply h2 {
+  margin: 0;
+  font-size: 23px;
+}
+
+.reply textarea {
+  min-height: 220px;
+  background: #15121d;
+  border-color: var(--forum-border);
+}
+.reply > small {
+  justify-self: end;
+  margin-top: calc(var(--spacing-3) * -1);
+  color: var(--color-text-muted);
+}
+.reply :global(button) {
+  justify-self: end;
+  min-width: 176px;
+  background: linear-gradient(135deg, #9d70ff, #6d28d9);
+  color: #fff;
+  box-shadow: none;
+}
+.page :global(.badge) {
+  background: rgba(139, 92, 246, 0.14);
+  border-color: rgba(139, 92, 246, 0.45);
+  color: #cbb7ff;
+}
+@media (max-width: 640px) {
+  .page {
+    padding-top: var(--spacing-8);
+    background-size:
+      24px 24px,
+      24px 24px,
+      auto;
+  }
+  .reply {
+    padding: var(--spacing-4);
+  }
+  .reply :global(button) {
+    width: 100%;
+  }
+  .posts {
+    gap: var(--spacing-4);
+  }
+}

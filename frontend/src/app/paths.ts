@@ -11,4 +11,8 @@ export const paths = {
   studySession: "/study-sessions/:sessionId",
   statistics: "/statistics",
   profile: "/profile",
+  forum: "/forum",
+  forumCategory: "/forum/categories/:categorySlug",
+  forumNewTopic: "/forum/categories/:categorySlug/new",
+  forumTopic: "/forum/topics/:topicId",
 } as const;

@@ -15,7 +15,7 @@ it("adds the bearer token to API requests", async () => {
   await apiClient("/dashboard");
 
   expect(fetch).toHaveBeenCalledWith(
-    "http://localhost:8080/api/dashboard",
+    "http://localhost:8081/api/dashboard",
     expect.objectContaining({ headers: expect.objectContaining({ Authorization: "Bearer access-token" }) }),
   );
 });

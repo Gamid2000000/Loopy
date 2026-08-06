@@ -1,0 +1,2 @@
+import { Link } from "react-router-dom"; import styles from "./ForumBreadcrumbs.module.css";
+export function ForumBreadcrumbs({ items }: { items: { label: string; to?: string }[] }) { return <nav className={styles.breadcrumbs} aria-label="Хлебные крошки">{items.map((item, index) => <span key={`${item.label}-${index}`}>{item.to ? <Link to={item.to}>{item.label}</Link> : <span aria-current="page" title={item.label}>{item.label}</span>}{index < items.length - 1 && <span aria-hidden="true"> / </span>}</span>)}</nav>; }

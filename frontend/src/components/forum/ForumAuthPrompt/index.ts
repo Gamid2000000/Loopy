@@ -1,0 +1,1 @@
+export { ForumAuthPrompt } from "./ForumAuthPrompt";

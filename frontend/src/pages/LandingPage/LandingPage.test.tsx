@@ -15,8 +15,9 @@ it("renders the public product sections and only one h1", () => {
   expect(document.getElementById("features")).toBeInTheDocument();
   expect(document.getElementById("how-it-works")).toBeInTheDocument();
   expect(screen.getAllByText("В разработке")).not.toHaveLength(0);
-  expect(screen.getByText("Форум скоро")).toBeInTheDocument();
   expect(screen.getByText("Что такое интервальные повторения?")).toBeInTheDocument();
+  expect(screen.getByRole("link", { name: "Перейти на форум" })).toHaveAttribute("href", "/forum");
+  expect(screen.queryByText("Форум скоро")).not.toBeInTheDocument();
 });
 
 it("shows guest and authenticated calls to action without redirecting", () => {

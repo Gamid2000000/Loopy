@@ -8,8 +8,13 @@ import { StudyIcon } from "../../icons/StudyIcon";
 import { StatisticsIcon } from "../../icons/StatisticsIcon";
 import { ProfileIcon } from "../../icons/ProfileIcon";
 import { LogoutIcon } from "../../icons/LogoutIcon";
+import type { SVGProps } from "react";
 import { useAuth } from "../../../context/AuthContext/useAuth";
 import styles from "./AppSidebar.module.css";
+
+function ForumIcon(props: SVGProps<SVGSVGElement>) {
+  return <svg viewBox="0 0 24 24" aria-hidden="true" {...props}><path fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" d="M5 5h14v10H9l-4 4V5Zm4 4h6m-6 3h4" /></svg>;
+}
 
 export function AppSidebar() {
   const { user, logout } = useAuth();
@@ -59,6 +64,7 @@ export function AppSidebar() {
           <SidebarItem to="/study" onClick={close}><StudyIcon />Занятие</SidebarItem>
           <SidebarItem to="/statistics" onClick={close}><StatisticsIcon />Статистика</SidebarItem>
           <SidebarItem to="/profile" onClick={close}><ProfileIcon />Профиль</SidebarItem>
+          <SidebarItem to="/forum" onClick={close}><ForumIcon />Форум</SidebarItem>
         </nav>
         <footer>
           <strong>{user?.email}</strong>

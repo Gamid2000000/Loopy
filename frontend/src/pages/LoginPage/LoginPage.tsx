@@ -1,12 +1,14 @@
 import { useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthLayout } from "../../components/layout/AuthLayout";
 import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 import { useAuth } from "../../context/AuthContext/useAuth";
+import { safeReturnPath } from "../../utils/safeReturnPath";
 export function LoginPage() {
   const { login, isLoading, error } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validation, setValidation] = useState<string | null>(null);
@@ -18,7 +20,8 @@ export function LoginPage() {
     }
     try {
       await login({ email, password });
-      navigate("/dashboard");
+      const returnTo = (location.state as { returnTo?: string } | null)?.returnTo;
+      navigate(safeReturnPath(returnTo) ?? "/dashboard");
     } catch {
       return;
     }

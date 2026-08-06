@@ -1,6 +1,11 @@
 import { ApiError } from "../api/apiError";
 
 const messages: Record<string, string> = {
+  FORUM_CATEGORY_NOT_FOUND: "Категория форума не найдена",
+  FORUM_TOPIC_NOT_FOUND: "Тема форума не найдена",
+  FORUM_TOPIC_LOCKED: "Тема закрыта для новых ответов",
+  FORUM_TOPIC_TITLE_INVALID: "Проверьте название темы",
+  FORUM_POST_CONTENT_INVALID: "Проверьте текст сообщения",
   CARD_NOT_FOUND: "Карточка не найдена или недоступна",
   DECK_NOT_FOUND: "Колода не найдена или недоступна",
   DECK_STATE_CONFLICT: "Операция недоступна для текущего состояния колоды",

@@ -1,0 +1,1 @@
+.breadcrumbs { margin-bottom:var(--space-4); color:var(--color-text-secondary); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; } .breadcrumbs a { color:inherit; }

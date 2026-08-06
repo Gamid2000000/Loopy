@@ -50,8 +50,12 @@ public class SecurityConfig {
 				.addFilterBefore(jwtAuthenticationFilter,
 						UsernamePasswordAuthenticationFilter.class)
 				.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.OPTIONS, "/**")
-						.permitAll().requestMatchers("/auth/login", "/auth/register").permitAll()
-						.anyRequest().authenticated())
+						.permitAll()
+						.requestMatchers("/auth/login", "/auth/register")
+						.permitAll()
+						.requestMatchers(HttpMethod.GET, "/forum/categories",
+								"/forum/categories/*/topics", "/forum/topics/*")
+						.permitAll().anyRequest().authenticated())
 				.build();
 	}
 
@@ -60,6 +64,8 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
-    @Bean
-    public Clock clock() { return Clock.systemUTC(); }
+	@Bean
+	public Clock clock() {
+		return Clock.systemUTC();
+	}
 }

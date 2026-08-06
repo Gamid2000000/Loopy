@@ -1,0 +1,1 @@
+export { ForumPostCard } from "./ForumPostCard";

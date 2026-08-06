@@ -23,9 +23,22 @@ import com.loopy.exception.UserNotFoundException;
 import com.loopy.exception.UserProfileNotFoundException;
 import com.loopy.exception.StudySessionNotFoundException;
 import com.loopy.exception.StudySessionConflictException;
+import com.loopy.exception.ForumException;
 
 @ControllerAdvice
 public class GlobalExceptionFilter {
+	@ExceptionHandler(ForumException.class)
+	public ResponseEntity<JsonErrorResponse> forum(ForumException ex) {
+		String code = ex.getMessage().equals("Forum category was not found")
+				? "FORUM_CATEGORY_NOT_FOUND"
+				: ex.getMessage().equals("Forum topic was not found") ? "FORUM_TOPIC_NOT_FOUND"
+						: ex.getMessage().equals("Forum topic is locked") ? "FORUM_TOPIC_LOCKED"
+								: ex.getMessage().equals("Forum topic title is invalid")
+										? "FORUM_TOPIC_TITLE_INVALID" : "FORUM_POST_CONTENT_INVALID";
+		HttpStatus status = code.equals("FORUM_TOPIC_LOCKED") ? HttpStatus.CONFLICT
+				: code.endsWith("NOT_FOUND") ? HttpStatus.NOT_FOUND : HttpStatus.BAD_REQUEST;
+		return error(status, code, ex.getMessage());
+	}
 	@ExceptionHandler(StudySessionNotFoundException.class)
 	public ResponseEntity<JsonErrorResponse> studySessionNotFound(
 			StudySessionNotFoundException ex) {

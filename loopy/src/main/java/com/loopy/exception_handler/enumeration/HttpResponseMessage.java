@@ -45,7 +45,13 @@ public enum HttpResponseMessage {
 	HTTP_CARD_IMPORT_EMPTY("Card import request is empty"),
 	HTTP_CARD_IMPORT_TOO_MANY_ROWS("Too many rows for import"),
 	HTTP_CARD_IMPORT_NO_VALID_ROWS("No valid rows to import"),
-	HTTP_CARD_IMPORT_INVALID_ROW("Card import row is invalid");
+	HTTP_CARD_IMPORT_INVALID_ROW("Card import row is invalid"),
+
+	HTTP_FORUM_CATEGORY_NOT_FOUND("Forum category was not found"),
+	HTTP_FORUM_TOPIC_NOT_FOUND("Forum topic was not found"),
+	HTTP_FORUM_TOPIC_LOCKED("Forum topic is locked"),
+	HTTP_FORUM_TOPIC_TITLE_INVALID("Forum topic title is invalid"),
+	HTTP_FORUM_POST_CONTENT_INVALID("Forum post content is invalid");
 
 	private final String message;
 

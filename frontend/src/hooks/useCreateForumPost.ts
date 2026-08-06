@@ -1,0 +1,2 @@
+import { useState } from "react"; import { forumApi } from "../api/forumApi"; import type { CreateForumPostRequest } from "../types/forum";
+export function useCreateForumPost() { const [pending, setPending] = useState(false); return { pending, create: async (id: number, request: CreateForumPostRequest) => { setPending(true); try { return await forumApi.createForumPost(id, request); } finally { setPending(false); } } }; }

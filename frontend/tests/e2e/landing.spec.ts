@@ -16,5 +16,6 @@ test("guest calls to action point to auth routes", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("link", { name: "Начать бесплатно" }).first()).toHaveAttribute("href", "/register");
   await expect(page.getByRole("link", { name: "Войти" }).first()).toHaveAttribute("href", "/login");
-  await expect(page.getByText("Форум скоро")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Перейти на форум" })).toHaveAttribute("href", "/forum");
+  await expect(page.getByText("Форум скоро")).not.toBeVisible();
 });
