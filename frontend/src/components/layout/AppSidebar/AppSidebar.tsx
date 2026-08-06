@@ -22,6 +22,7 @@ export function AppSidebar() {
 
   useEffect(() => {
     if (!open) return;
+    const menuButtonElement = menuButton.current;
     const oldOverflow = document.body.style.overflow;
     const items = drawer.current?.querySelectorAll<HTMLElement>("a[href], button:not([disabled])") ?? [];
     items[0]?.focus();
@@ -38,7 +39,7 @@ export function AppSidebar() {
     return () => {
       document.body.style.overflow = oldOverflow;
       document.removeEventListener("keydown", onKeyDown);
-      menuButton.current?.focus();
+      menuButtonElement?.focus();
     };
   }, [open]);
 

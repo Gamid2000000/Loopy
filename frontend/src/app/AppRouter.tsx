@@ -14,10 +14,12 @@ import { CardImportPage } from "../pages/CardImportPage";
 import { StudySessionPage } from "../pages/StudySessionPage";
 import { StudyEntryPage } from "../pages/StudyEntryPage";
 import { ProfilePage } from "../pages/ProfilePage";
+import { LandingPage } from "../pages/LandingPage";
 const shell = (page: React.ReactNode) => <AppShell>{page}</AppShell>;
 export function AppRouter() {
   return (
     <Routes>
+      <Route path="/" element={<LandingPage />} />
       <Route element={<PublicOnlyRoute />}>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />

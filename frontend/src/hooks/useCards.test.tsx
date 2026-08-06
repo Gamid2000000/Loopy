@@ -204,5 +204,11 @@ it("moves to the previous page after archiving the last item", async () => {
   });
 
   expect(result.current.active.number).toBe(0);
-  await waitFor(() => expect(cardsApi.getActiveCards).toHaveBeenLastCalledWith(1, 0, 50, expect.any(AbortSignal)));
+  await waitFor(() =>
+    expect(cardsApi.getActiveCards).toHaveBeenLastCalledWith(
+      1,
+      { query: "", sort: "UPDATED_DESC", page: 0, size: 50 },
+      expect.any(AbortSignal),
+    ),
+  );
 });

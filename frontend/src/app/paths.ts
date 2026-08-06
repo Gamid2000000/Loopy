@@ -1,4 +1,5 @@
 export const paths = {
+  landing: "/",
   login: "/login",
   register: "/register",
   dashboard: "/dashboard",
