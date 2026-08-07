@@ -1,0 +1,1 @@
+export { DeleteForumPostDialog } from "./DeleteForumPostDialog";

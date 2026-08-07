@@ -48,7 +48,8 @@ public interface ForumTopicRepository extends JpaRepository<ForumTopic, Long> {
     @Query("""
             select new com.loopy.service.dto.ForumTopicResponse(
                 t.id, c.id, c.slug, c.name, t.title, t.author.id, t.author.name, t.pinned,
-                t.locked, t.postsCount, t.createdAt, t.updatedAt, t.lastActivityAt, null)
+                t.locked, t.postsCount, t.createdAt, t.updatedAt, t.lastActivityAt,
+                t.version, null)
             from ForumTopic t
             join t.category c
             where t.id = :topicId

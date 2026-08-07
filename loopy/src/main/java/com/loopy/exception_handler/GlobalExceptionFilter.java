@@ -29,15 +29,42 @@ import com.loopy.exception.ForumException;
 public class GlobalExceptionFilter {
 	@ExceptionHandler(ForumException.class)
 	public ResponseEntity<JsonErrorResponse> forum(ForumException ex) {
-		String code = ex.getMessage().equals("Forum category was not found")
-				? "FORUM_CATEGORY_NOT_FOUND"
-				: ex.getMessage().equals("Forum topic was not found") ? "FORUM_TOPIC_NOT_FOUND"
-						: ex.getMessage().equals("Forum topic is locked") ? "FORUM_TOPIC_LOCKED"
-								: ex.getMessage().equals("Forum topic title is invalid")
-										? "FORUM_TOPIC_TITLE_INVALID" : "FORUM_POST_CONTENT_INVALID";
-		HttpStatus status = code.equals("FORUM_TOPIC_LOCKED") ? HttpStatus.CONFLICT
-				: code.endsWith("NOT_FOUND") ? HttpStatus.NOT_FOUND : HttpStatus.BAD_REQUEST;
-		return error(status, code, ex.getMessage());
+		String msg = ex.getMessage();
+		String code;
+		HttpStatus status;
+
+		if (msg.equals("Forum category was not found")) {
+			code = "FORUM_CATEGORY_NOT_FOUND";
+			status = HttpStatus.NOT_FOUND;
+		} else if (msg.equals("Forum topic was not found")) {
+			code = "FORUM_TOPIC_NOT_FOUND";
+			status = HttpStatus.NOT_FOUND;
+		} else if (msg.equals("Forum post was not found")) {
+			code = "FORUM_POST_NOT_FOUND";
+			status = HttpStatus.NOT_FOUND;
+		} else if (msg.equals("Forum topic is locked")) {
+			code = "FORUM_TOPIC_LOCKED";
+			status = HttpStatus.CONFLICT;
+		} else if (msg.equals("Forum topic forbidden")) {
+			code = "FORUM_TOPIC_FORBIDDEN";
+			status = HttpStatus.FORBIDDEN;
+		} else if (msg.equals("Forum post forbidden")) {
+			code = "FORUM_POST_FORBIDDEN";
+			status = HttpStatus.FORBIDDEN;
+		} else if (msg.equals("Forum content was modified in another tab")) {
+			code = "FORUM_CONTENT_VERSION_CONFLICT";
+			status = HttpStatus.CONFLICT;
+		} else if (msg.equals("Forum first post cannot be deleted separately")) {
+			code = "FORUM_FIRST_POST_DELETE_FORBIDDEN";
+			status = HttpStatus.CONFLICT;
+		} else if (msg.equals("Forum topic title is invalid")) {
+			code = "FORUM_TOPIC_TITLE_INVALID";
+			status = HttpStatus.BAD_REQUEST;
+		} else {
+			code = "FORUM_POST_CONTENT_INVALID";
+			status = HttpStatus.BAD_REQUEST;
+		}
+		return error(status, code, msg);
 	}
 	@ExceptionHandler(StudySessionNotFoundException.class)
 	public ResponseEntity<JsonErrorResponse> studySessionNotFound(
@@ -98,8 +125,8 @@ public class GlobalExceptionFilter {
 	@ExceptionHandler(ObjectOptimisticLockingFailureException.class)
 	public ResponseEntity<JsonErrorResponse> optimisticLock(
 			ObjectOptimisticLockingFailureException ex) {
-		return error(HttpStatus.CONFLICT, "OPTIMISTIC_LOCK_CONFLICT",
-				"Deck was modified concurrently");
+		return error(HttpStatus.CONFLICT, "FORUM_CONTENT_VERSION_CONFLICT",
+				"Content was modified in another tab. Please refresh and try again.");
 	}
 
 	@ExceptionHandler({MethodArgumentNotValidException.class, IllegalArgumentException.class})

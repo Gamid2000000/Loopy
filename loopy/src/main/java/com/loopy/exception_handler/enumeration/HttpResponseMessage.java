@@ -47,11 +47,17 @@ public enum HttpResponseMessage {
 	HTTP_CARD_IMPORT_NO_VALID_ROWS("No valid rows to import"),
 	HTTP_CARD_IMPORT_INVALID_ROW("Card import row is invalid"),
 
+	// Forum
 	HTTP_FORUM_CATEGORY_NOT_FOUND("Forum category was not found"),
 	HTTP_FORUM_TOPIC_NOT_FOUND("Forum topic was not found"),
 	HTTP_FORUM_TOPIC_LOCKED("Forum topic is locked"),
 	HTTP_FORUM_TOPIC_TITLE_INVALID("Forum topic title is invalid"),
-	HTTP_FORUM_POST_CONTENT_INVALID("Forum post content is invalid");
+	HTTP_FORUM_POST_CONTENT_INVALID("Forum post content is invalid"),
+	HTTP_FORUM_POST_NOT_FOUND("Forum post was not found"),
+	HTTP_FORUM_TOPIC_FORBIDDEN("Forum topic forbidden"),
+	HTTP_FORUM_POST_FORBIDDEN("Forum post forbidden"),
+	HTTP_FORUM_CONTENT_VERSION_CONFLICT("Forum content was modified in another tab"),
+	HTTP_FORUM_FIRST_POST_DELETE_FORBIDDEN("Forum first post cannot be deleted separately");
 
 	private final String message;
 

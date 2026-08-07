@@ -27,6 +27,32 @@
   max-width: 1120px;
 }
 
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+  flex-wrap: wrap;
+}
+
+.topicActions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .headerRow {
+    flex-direction: column;
+  }
+  .topicActions {
+    width: 100%;
+  }
+  .topicActions :global(button) {
+    flex: 1;
+  }
+}
+
 .posts :global(section) {
   padding: 0;
   background: color-mix(in srgb, var(--forum-panel), var(--color-surface) 12%);

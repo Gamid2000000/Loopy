@@ -60,6 +60,13 @@
   border-bottom: 1px solid var(--forum-border, var(--color-divider));
   color: var(--color-text-muted);
   font-size: 14px;
+  flex-wrap: wrap;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .topicLabel {

@@ -8,7 +8,7 @@ import { ToastContext } from "../../components/ui/Toast/ToastContext";
 import { ForumTopicPage } from "./ForumTopicPage";
 
 const author = { id: 1, username: "Alice" };
-const post = (id: number, content = `Post content ${id}`) => ({ id, author: { id: 1 + id, username: `User${id}` }, content, createdAt: "2026-08-01T10:00:00Z", updatedAt: "2026-08-01T10:00:00Z", edited: false });
+const post = (id: number, content = `Post content ${id}`) => ({ id, author: { id: 1 + id, username: `User${id}` }, content, createdAt: "2026-08-01T10:00:00Z", updatedAt: "2026-08-01T10:00:00Z", edited: false, version: 0 });
 const postsPage = (overrides: Record<string, unknown> = {}) => ({
   content: [post(1), post(2, "Line 1\nLine 2"), post(3, '<script>alert("xss")</script>')],
   totalPages: 2,
@@ -31,6 +31,8 @@ const topicData = (overrides: Record<string, unknown> = {}) => ({
   createdAt: "2026-08-01T10:00:00Z",
   updatedAt: "2026-08-01T10:00:00Z",
   lastActivityAt: "2026-08-01T10:00:00Z",
+  version: 0,
+  firstPostId: 1,
   posts: postsPage(overrides),
   ...overrides,
 });

@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { PublicLayout } from "../../components/layout/PublicLayout";
+import { ForumLayout } from "../../components/layout/ForumLayout";
 import { PageHeader } from "../../components/layout/PageHeader";
 import { Button } from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
@@ -33,11 +33,11 @@ export function ForumCategoryPage() {
   useDocumentMetadata(`${category?.name ?? "Категория"} — форум Loopy`, "Темы сообщества Loopy.");
   if (!valid)
     return (
-      <PublicLayout>
+      <ForumLayout>
         <div className="page">
           <ErrorState message="Категория форума не найдена" />
         </div>
-      </PublicLayout>
+      </ForumLayout>
     );
   const create =
     auth === "authenticated" ? (
@@ -48,7 +48,7 @@ export function ForumCategoryPage() {
       </Link>
     );
   return (
-    <PublicLayout>
+    <ForumLayout>
       <div className={`page ${styles.page}`}>
         <ForumBreadcrumbs items={[{ label: "Форум", to: "/forum" }, { label: category?.name ?? categorySlug }]} />
         <PageHeader
@@ -98,6 +98,6 @@ export function ForumCategoryPage() {
           <ForumPagination page={page} data={data} onChange={(next) => setSearch(next ? { page: String(next) } : {})} />
         )}
       </div>
-    </PublicLayout>
+    </ForumLayout>
   );
 }

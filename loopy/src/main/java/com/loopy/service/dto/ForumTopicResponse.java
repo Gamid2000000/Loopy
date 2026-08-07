@@ -18,12 +18,14 @@ public class ForumTopicResponse {
     private Instant createdAt;
     private Instant updatedAt;
     private Instant lastActivityAt;
+    private Long version;
+    private Long firstPostId;
     private Page<ForumPostResponse> posts;
 
     public ForumTopicResponse(Long id, Long categoryId, String categorySlug, String categoryName,
             String title, Long authorId, String authorName, boolean pinned, boolean locked,
             long postsCount, Instant createdAt, Instant updatedAt, Instant lastActivityAt,
-            Page<ForumPostResponse> posts) {
+            Long version, Page<ForumPostResponse> posts) {
         this.id = id;
         this.category = new ForumCategoryBriefResponse(categoryId, categorySlug, categoryName);
         this.title = title;
@@ -34,6 +36,7 @@ public class ForumTopicResponse {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.lastActivityAt = lastActivityAt;
+        this.version = version;
         this.posts = posts;
     }
 }
